@@ -1,33 +1,25 @@
-import React, { Component } from 'react'
-import { bindActionCreators } from 'redux'
-import { connect } from 'react-redux'
-import * as Actions from '../../actions'
-import style from './style.css'
+import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as Actions from '../../actions';
 
 class App extends Component {
-  render() {
-    const { children, ...others } = this.props;
-    return (
-      <div className={style.normal}>
-        {React.cloneElement(children, {...others})}
-      </div>
-    )
-  }
+	render() {
+		const { children, ...others } = this.props;
+		return <div>{React.cloneElement(children, { ...others })}</div>;
+	}
 }
 
 function mapStateToProps(state) {
-  return {
-    ...state.data
-  }
+	return {
+		...state.data,
+	};
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(Actions, dispatch)
-  }
+	return {
+		actions: bindActionCreators(Actions, dispatch),
+	};
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App);
