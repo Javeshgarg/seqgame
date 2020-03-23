@@ -1,3 +1,3 @@
-export default const api = (url, options = {}) => {
+export default (url, options = {}) => {
 	return fetch(url, options).then(res => res.json());
-}
+};
