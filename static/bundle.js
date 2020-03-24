@@ -4838,8 +4838,6 @@ webpackJsonp([1],[
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var songs = ['https://open.spotify.com/embed/track/5fXslGZPI5Cco6PKHzlSL3', 'https://open.spotify.com/embed/track/6rfahvufEQDIVTHJIU2QQB'];
-
 	function say(m) {
 		var msg = new SpeechSynthesisUtterance();
 		var voices = window.speechSynthesis.getVoices().filter(function (v) {
@@ -4887,12 +4885,22 @@ webpackJsonp([1],[
 				setTimeout(function () {
 					if (message.startsWith('>')) {
 						_this2.sendMessage('funny', message.slice(1));
-					} else if (message.startsWith('~')) {
-						_this2.sendMessage('music', message.slice(1));
+					} else if (message.includes('open.spotify.com')) {
+						_this2.sendMessage('music', _this2.getSongURI(message));
 					} else {
 						_this2.sendMessage('normal', message);
 					}
 				}, 100);
+			}
+		}, {
+			key: 'getSongURI',
+			value: function getSongURI(url) {
+				try {
+					var match = /(track|playlist|album)\/(.*)/.exec(url);
+					return match[0].split('?')[0];
+				} catch (e) {
+					return 'track/5fXslGZPI5Cco6PKHzlSL3';
+				}
 			}
 		}, {
 			key: 'sendMessage',
@@ -4924,15 +4932,16 @@ webpackJsonp([1],[
 			}
 		}, {
 			key: 'playMusic',
-			value: function playMusic(index) {
-				this.refs.player && (this.refs.player.src = songs[index] || songs[0]);
+			value: function playMusic(trackId) {
+				this.refs.player && (this.refs.player.src = 'https://open.spotify.com/embed/' + trackId);
 			}
 		}, {
 			key: 'cleanUpMusic',
 			value: function cleanUpMusic() {
 				var _this4 = this;
 
-				setTimeout(function () {
+				this.cleanUpTimeoutObj_ && clearTimeout(this.cleanUpTimeoutObj_);
+				this.cleanUpTimeoutObj_ = setTimeout(function () {
 					_this4.refs.player && (_this4.refs.player.src = 'about:blank');
 				}, 30000);
 			}

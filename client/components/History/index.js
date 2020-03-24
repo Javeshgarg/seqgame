@@ -2,11 +2,6 @@ import styles from '../styles.css';
 import React, { Component } from 'react';
 import classnames from 'classnames';
 
-const songs = [
-	'https://open.spotify.com/embed/track/5fXslGZPI5Cco6PKHzlSL3',
-	'https://open.spotify.com/embed/track/6rfahvufEQDIVTHJIU2QQB',
-];
-
 function say(m) {
 	const msg = new SpeechSynthesisUtterance();
 	const voices = window.speechSynthesis
@@ -43,12 +38,21 @@ export default class History extends Component {
 		setTimeout(() => {
 			if (message.startsWith('>')) {
 				this.sendMessage('funny', message.slice(1));
-			} else if (message.startsWith('~')) {
-				this.sendMessage('music', message.slice(1));
+			} else if (message.includes('open.spotify.com')) {
+				this.sendMessage('music', this.getSongURI(message));
 			} else {
 				this.sendMessage('normal', message);
 			}
 		}, 100);
+	}
+
+	getSongURI(url) {
+		try {
+			const match = /(track|playlist|album)\/(.*)/.exec(url);
+			return match[0].split('?')[0];
+		} catch (e) {
+			return 'track/5fXslGZPI5Cco6PKHzlSL3';
+		}
 	}
 
 	sendMessage(type, message) {
@@ -70,12 +74,14 @@ export default class History extends Component {
 		});
 	}
 
-	playMusic(index) {
-		this.refs.player && (this.refs.player.src = songs[index] || songs[0]);
+	playMusic(trackId) {
+		this.refs.player &&
+			(this.refs.player.src = `https://open.spotify.com/embed/${trackId}`);
 	}
 
 	cleanUpMusic() {
-		setTimeout(() => {
+		this.cleanUpTimeoutObj_ && clearTimeout(this.cleanUpTimeoutObj_);
+		this.cleanUpTimeoutObj_ = setTimeout(() => {
 			this.refs.player && (this.refs.player.src = 'about:blank');
 		}, 30000);
 	}
