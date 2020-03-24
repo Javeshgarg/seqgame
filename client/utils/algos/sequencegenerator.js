@@ -1,4 +1,4 @@
-const cardmap = require('../../client/utils/cardmap');
+const cardmap = require('../../utils/cardmap');
 const initialBufferTime = 0 * 60 * 1000; // 1 min
 
 module.exports = function generateInitialState({ gameId, players, teamCount }) {

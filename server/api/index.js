@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const generateInitialState = require('./sequenceGenerator');
+const generateInitialState = require('../../client/utils/algos/sequencegenerator');
 
 // Automatically parse request body as JSON
 const router = express.Router();
