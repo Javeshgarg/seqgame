@@ -54,16 +54,17 @@ export default class Game extends Component {
 	broadCastMove(card) {
 		console.log('socket_server_play');
 		setTimeout(
-			this.socket_.emit('server_play', { id: this.props.id, card }),
-			500,
+			() => this.socket_.emit('server_play', { id: this.props.id, card }),
+			200,
 		);
 	}
 
 	broadCastMessage({ type, message }) {
 		console.log('socket_server_chat');
 		setTimeout(
-			this.socket_.emit('server_chat', { id: this.props.id, type, message }),
-			500,
+			() =>
+				this.socket_.emit('server_chat', { id: this.props.id, type, message }),
+			200,
 		);
 	}
 
@@ -134,9 +135,20 @@ export default class Game extends Component {
 				1,
 				pickedCard[0],
 			);
-			document
-				.querySelector(`.${styles['hand']} .${styles['card_' + card]}`)
-				.classList.remove(styles['card_' + card]);
+
+			// animate
+			const currentCard = document.querySelector(
+				`.${styles['hand']} .${styles['card_' + card]}`,
+			);
+			setTimeout(
+				(function(el) {
+					return () => {
+						el.classList.add(styles['card_new']);
+					};
+				})(currentCard),
+				500,
+			);
+
 			this.broadCastMove(card);
 		}
 
@@ -151,7 +163,7 @@ export default class Game extends Component {
 			},
 		};
 
-		setTimeout(() => this.setNextState(nextState), 500);
+		this.setNextState(nextState);
 	}
 
 	setNextState(state) {
@@ -278,7 +290,7 @@ export default class Game extends Component {
 						</ul>
 						<div className={styles['players-container']}>
 							<h3 className={styles['title']}>
-								<div>{current.id}</div>
+								<div className={styles['small']}>{current.id}</div>
 								<Timer
 									start={current.start}
 									onTimeout={this.onTimeOut.bind(this)}

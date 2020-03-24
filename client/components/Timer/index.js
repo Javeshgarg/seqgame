@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { timeoutMs } from '../../utils/constants';
+import styles from '../styles.css';
 
 export default class Timer extends Component {
 	constructor(props) {
@@ -44,10 +45,7 @@ export default class Timer extends Component {
 		const pendingMins = Math.floor(pendingSeconds / 60);
 		pendingSeconds -= pendingMins * 60;
 		return (
-			<span
-				className={`timer ${this.props.className} ${
-					pendingMins === 0 ? 'pulse' : ''
-				}`}>
+			<span className={styles['timer']}>
 				{pendingMins}:
 				{pendingSeconds > 9 ? pendingSeconds : `0${pendingSeconds}`}
 			</span>

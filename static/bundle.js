@@ -2213,7 +2213,7 @@ webpackJsonp([1],[
 				},
 				body: (0, _stringify2.default)(state)
 			}).then(function (json) {
-				return dispatch({ type: 'get_game', data: json });
+				return dispatch({ type: 'set_game', data: json });
 			});
 		};
 	};
@@ -3343,17 +3343,25 @@ webpackJsonp([1],[
 		}, {
 			key: 'broadCastMove',
 			value: function broadCastMove(card) {
+				var _this3 = this;
+
 				console.log('socket_server_play');
-				setTimeout(this.socket_.emit('server_play', { id: this.props.id, card: card }), 500);
+				setTimeout(function () {
+					return _this3.socket_.emit('server_play', { id: _this3.props.id, card: card });
+				}, 200);
 			}
 		}, {
 			key: 'broadCastMessage',
 			value: function broadCastMessage(_ref2) {
+				var _this4 = this;
+
 				var type = _ref2.type,
 				    message = _ref2.message;
 
 				console.log('socket_server_chat');
-				setTimeout(this.socket_.emit('server_chat', { id: this.props.id, type: type, message: message }), 500);
+				setTimeout(function () {
+					return _this4.socket_.emit('server_chat', { id: _this4.props.id, type: type, message: message });
+				}, 200);
 			}
 		}, {
 			key: 'componentWillUnmount',
@@ -3408,10 +3416,10 @@ webpackJsonp([1],[
 		}, {
 			key: 'resolveConflictedCard',
 			value: function resolveConflictedCard(card) {
-				var _this3 = this;
+				var _this5 = this;
 
 				this.setState({ cardOptions: [] }, function () {
-					_this3.dropHand_(card, _this3.state.slot);
+					_this5.dropHand_(card, _this5.state.slot);
 				});
 			}
 		}, {
@@ -3422,8 +3430,6 @@ webpackJsonp([1],[
 		}, {
 			key: 'dropHand_',
 			value: function dropHand_(card, _ref3) {
-				var _this4 = this;
-
 				var _ref4 = (0, _slicedToArray3.default)(_ref3, 2),
 				    x = _ref4[0],
 				    y = _ref4[1];
@@ -3450,7 +3456,16 @@ webpackJsonp([1],[
 					hands.splice(hands.findIndex(function (v) {
 						return v === card;
 					}), 1, pickedCard[0]);
-					document.querySelector('.' + _styles2.default['hand'] + ' .' + _styles2.default['card_' + card]).classList.remove(_styles2.default['card_' + card]);
+
+					// animate
+					var currentCard = document.querySelector('.' + _styles2.default['hand'] + ' .' + _styles2.default['card_' + card]);
+					setTimeout(function (el) {
+						return function () {
+							console.log(10000);
+							el.classList.add(_styles2.default['card_new']);
+						};
+					}(currentCard), 500);
+
 					this.broadCastMove(card);
 				}
 
@@ -3465,9 +3480,7 @@ webpackJsonp([1],[
 					}
 				};
 
-				setTimeout(function () {
-					return _this4.setNextState(nextState);
-				}, 500);
+				this.setNextState(nextState);
 			}
 		}, {
 			key: 'setNextState',
@@ -3507,7 +3520,7 @@ webpackJsonp([1],[
 		}, {
 			key: 'render',
 			value: function render() {
-				var _this5 = this;
+				var _this6 = this;
 
 				var _props3 = this.props,
 				    loading = _props3.loading,
@@ -3543,13 +3556,13 @@ webpackJsonp([1],[
 									'tr',
 									{ key: counter + 1 },
 									row.map(function (cell) {
-										var color = cell ? _this5.getColor_(cell.id) : null;
+										var color = cell ? _this6.getColor_(cell.id) : null;
 										counter = counter + 1;
 										return _react2.default.createElement(_Cell2.default, {
 											key: counter,
-											onMouseOver: _this5.highlightLocation_.bind(_this5, 1, _cardmap2.default[counter], counter),
-											onMouseOut: _this5.highlightLocation_.bind(_this5, 0, _cardmap2.default[counter], counter),
-											onDoubleClick: _this5.commitPlay.bind(_this5, counter),
+											onMouseOver: _this6.highlightLocation_.bind(_this6, 1, _cardmap2.default[counter], counter),
+											onMouseOut: _this6.highlightLocation_.bind(_this6, 0, _cardmap2.default[counter], counter),
+											onDoubleClick: _this6.commitPlay.bind(_this6, counter),
 											className: (0, _classnames2.default)(_styles2.default['card'], _styles2.default['card_' + _cardmap2.default[counter]]),
 											color: color
 										});
@@ -3573,8 +3586,8 @@ webpackJsonp([1],[
 										'li',
 										{
 											key: i,
-											onMouseOver: _this5.highlightLocation_.bind(_this5, 1, c),
-											onMouseOut: _this5.highlightLocation_.bind(_this5, 0, c) },
+											onMouseOver: _this6.highlightLocation_.bind(_this6, 1, c),
+											onMouseOut: _this6.highlightLocation_.bind(_this6, 0, c) },
 										_react2.default.createElement('div', {
 											className: (0, _classnames2.default)(_styles2.default['card'], _styles2.default['card_' + c])
 										})
@@ -3593,7 +3606,7 @@ webpackJsonp([1],[
 										_react2.default.createElement(Avatar, {
 											current: current.id === player,
 											id: player,
-											color: _this5.getColor_(player)
+											color: _this6.getColor_(player)
 										})
 									);
 								})
@@ -3606,7 +3619,7 @@ webpackJsonp([1],[
 									{ className: _styles2.default['title'] },
 									_react2.default.createElement(
 										'div',
-										null,
+										{ className: _styles2.default['small'] },
 										current.id
 									),
 									_react2.default.createElement(_Timer2.default, {
@@ -3930,7 +3943,7 @@ webpackJsonp([1],[
 
 
 	// module
-	exports.push([module.id, ".game___3Qu0q {\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-ms-flex-direction: row;\n\t    flex-direction: row;\n}\n\n.coin___GNlky {\n\twidth: 75px;\n\theight: 75px;\n\tmargin: 15% auto;\n\tborder-radius: 50%;\n\tbox-shadow: 1px 0 2px 2px #000;\n\tbackground-image: url(/static/coin.png);\n\tbackground-repeat: no-repeat;\n\tbackground-size: 75px;\n}\n\n.control___1OxmN {\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-ms-flex-direction: column;\n\t    flex-direction: column;\n\t-ms-flex-pack: center;\n\t    justify-content: center;\n\t-ms-flex-align: center;\n\t    align-items: center;\n\twidth: 400px;\n\theight: 400px;\n\tpadding: 10px;\n\tborder-radius: 50%;\n\tbackground-color: #fff;\n\tbackground-image: url(/static/pattern.png);\n\tbox-shadow: 0 0 10px 0px #000;\n\ttransition: background-color 0.5s ease;\n\tmargin-top: 50px;\n}\n\n.control___1OxmN.alert___3EFR8.red___3DsOb {\n\tbackground-color: #ef5350;\n}\n\n.control___1OxmN.alert___3EFR8.blue___2Sk54 {\n\tbackground-color: #0091ea;\n}\n\n.control___1OxmN.alert___3EFR8.green___3OCGy {\n\tbackground-color: #a5d6a7;\n}\n\n.coin-red___1so7u {\n\tbackground-color: red;\n\tmargin: 15% 0%;\n}\n\n.coin-green___1Vq67 {\n\tbackground-color: lawngreen;\n\tmargin: 15% 0%;\n}\n\n.coin-blue___17rh- {\n\tmargin: 15% 6%;\n\tbackground-color: darkblue;\n}\n\n.board___3hm97 {\n\tbackground-image: url(/static/pattern.png);\n\tbackground-color: #fff;\n\ttransform: scale(0.85) translateY(-99px);\n\tbox-shadow: 0 0 10px 2px #555;\n}\n\n.timer___2dZEo {\n\ttransition: font-size 0.5s ease;\n\tfont-size: 55px;\n}\n\n.toast___2t8RT {\n\tbackground-color: #000;\n\tposition: absolute;\n\ttop: -50px;\n\tleft: 0;\n\twidth: 100%;\n\tpadding: 10px;\n\tcolor: #fff;\n\ttext-align: center;\n\tfont-size: 20px;\n\tanimation: toaster___1b40i 3s ease;\n}\n\n@keyframes toaster___1b40i {\n\t10% {\n\t\ttop: 0;\n\t}\n\n\t90% {\n\t\ttop: 0;\n\t}\n\n\t100% {\n\t\ttop: -50px;\n\t}\n}\n\n.title___1uuHz {\n\tfont-family: 'Wallpoet', cursive, 'Arial';\n\tmargin-top: 20px;\n\tfont-size: 24px;\n\ttext-transform: uppercase;\n\ttext-align: center;\n}\n\n.avatar-box___YCSy5 {\n\tposition: relative;\n\ttransition: transform 0.2s ease;\n}\n\n.avatar-current___2WjW- {\n\ttransform: scale(1.5);\n}\n\n.avatar-online___1JLng:after {\n\tcontent: '';\n\tbackground-color: green;\n\twidth: 12px;\n\theight: 12px;\n\tborder-radius: 50%;\n\tposition: absolute;\n\tdisplay: block;\n\ttop: 5px;\n\tright: 8px;\n}\n\n.avatar___2voJI {\n\tborder-radius: 50%;\n\tborder: 2px solid #fff;\n\ttransition: transform 0.5s ease;\n\tmargin-right: 5px;\n\tmin-width: 64px;\n\tmin-height: 64px;\n\tpadding: 2px;\n}\n\n.avatar-red___34drd {\n\tbackground-color: #ef5350;\n}\n\n.avatar-blue___EDS1V {\n\tbackground-color: #0091ea;\n}\n\n.avatar-green___3fhcB {\n\tbackground-color: #a5d6a7;\n}\n\n.players___1Zr2t {\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-ms-flex-direction: row;\n\t    flex-direction: row;\n\tpadding-top: 10px;\n}\n\n.players___1Zr2t li.current___1dT7h {\n\tfont-weight: bold;\n}\n\n.hand___3WEBO {\n\tlist-style-type: none;\n\tpadding: 0;\n\tposition: relative;\n\tclear: both;\n\theight: 150px;\n\twidth: 250px;\n}\n\n.hand___3WEBO li {\n\tposition: absolute;\n\tmargin: 0;\n\tpadding: 0;\n\tlist-style-type: none;\n\tfloat: left;\n\theight: 8em;\n\twidth: 4em;\n\tbottom: 0;\n\ttransition: bottom 0.5s ease;\n\topacity: 1;\n}\n\n.hand___3WEBO li:hover~li {\n\topacity: 0.2;\n}\n\n.card___1dy8c {\n\twidth: 72px;\n\theight: 97px;\n\tdisplay: inline-block;\n\tmargin: 5px;\n}\n\n.hand___3WEBO .card___1dy8c {\n\tanimation: throwerIn___3D2T3 1s ease;\n}\n\n@keyframes throwerIn___3D2T3 {\n\t0% {\n\t\ttransform: translateY(-80px);\n\t}\n\n\t100% {\n\t\ttransform: translateY(0px);\n\t}\n}\n\n.board___3hm97 .card___1dy8c {\n\theight: 10.3vh;\n}\n\n.board___3hm97 .card___1dy8c.hover___10LXM,\n.board___3hm97 .card___1dy8c.chover___1-HWf:hover {\n\tcursor: pointer;\n\tbox-shadow: 0 0 16px 1px #000 inset;\n}\n\n.hand___3WEBO li:nth-child(1) {\n\ttransform: translate(0em, 0.9em) rotate(-18deg);\n\tleft: 0;\n}\n\n.hand___3WEBO li:nth-child(2) {\n\ttransform: translate(0.5em, 0.5em) rotate(-15deg);\n\tleft: 2em;\n}\n\n.hand___3WEBO li:nth-child(3) {\n\ttransform: translate(0.5em, 0.3em) rotate(-12deg);\n\tleft: 4em;\n}\n\n.hand___3WEBO li:nth-child(4) {\n\ttransform: translate(0.5em, 0.2em) rotate(-9deg);\n\tleft: 6em;\n}\n\n.hand___3WEBO li:nth-child(5) {\n\ttransform: translate(0.5em, 0.1em) rotate(-6deg);\n\tleft: 8em;\n}\n\n.hand___3WEBO li:nth-child(6) {\n\ttransform: translate(0.5em, 0em) rotate(-3deg);\n\tleft: 10em;\n}\n\n.hand___3WEBO li:nth-child(7) {\n\ttransform: translate(0.5em, -0.1em) rotate(0deg);\n\tleft: 12em;\n}\n\n.hand___3WEBO li:nth-child(1):hover {\n\ttransform: translate(0em, 0.9em) rotate(-18deg) scale(1.1);\n\tleft: 0;\n}\n\n.hand___3WEBO li:nth-child(2):hover {\n\ttransform: translate(0.5em, 0.5em) rotate(-15deg) scale(1.1);\n\tleft: 2em;\n}\n\n.hand___3WEBO li:nth-child(3):hover {\n\ttransform: translate(0.5em, 0.3em) rotate(-12deg) scale(1.1);\n\tleft: 4em;\n}\n\n.hand___3WEBO li:nth-child(4):hover {\n\ttransform: translate(0.5em, 0.2em) rotate(-9deg) scale(1.1);\n\tleft: 6em;\n}\n\n.hand___3WEBO li:nth-child(5):hover {\n\ttransform: translate(0.5em, 0.1em) rotate(-6deg) scale(1.1);\n\tleft: 8em;\n}\n\n.hand___3WEBO li:nth-child(6):hover {\n\ttransform: translate(0.5em, 0em) rotate(-3deg) scale(1.1);\n\tleft: 10em;\n}\n\n.hand___3WEBO li:nth-child(7):hover {\n\ttransform: translate(0.5em, -0.1em) rotate(0deg) scale(1.1);\n\tleft: 12em;\n}\n\n.card_open___2c6wm {\n\tbackground-image: url(/static/coin-open.jpg);\n\tbackground-size: 50px;\n\tbackground-repeat: no-repeat;\n\tbackground-position: center;\n\tborder-radius: 10px;\n\tbackground-color: #fff;\n}\n\n.card_1_c___MiWzI {\n\tbackground: url(/static/cards.png) -2px -1px;\n}\n\n.card_2_c___1_Q8g {\n\tbackground: url(/static/cards.png) -75px -1px;\n}\n\n.card_3_c___2EZEQ {\n\tbackground: url(/static/cards.png) -148px -1px;\n}\n\n.card_4_c___1wAed {\n\tbackground: url(/static/cards.png) -220px -1px;\n}\n\n.card_5_c___3HWah {\n\tbackground: url(/static/cards.png) -294px -1px;\n}\n\n.card_6_c___38IVz {\n\tbackground: url(/static/cards.png) -366px -1px;\n}\n\n.card_7_c___12CFV {\n\tbackground: url(/static/cards.png) -440px -1px;\n}\n\n.card_8_c___3wyhD {\n\tbackground: url(/static/cards.png) -512px -1px;\n}\n\n.card_9_c___Z14Q5 {\n\tbackground: url(/static/cards.png) -586px -1px;\n}\n\n.card_10_c___2-rbC {\n\tbackground: url(/static/cards.png) -658px -1px;\n}\n\n.card_11_c___3PPzC {\n\tbackground: url(/static/cards.png) -732px -1px;\n}\n\n.card_12_c___3sMLM {\n\tbackground: url(/static/cards.png) -804px -1px;\n}\n\n.card_13_c___3rGj7 {\n\tbackground: url(/static/cards.png) -878px -1px;\n}\n\n.card_1_h___3MF4N {\n\tbackground: url(/static/cards.png) -2px -99px;\n}\n\n.card_2_h___iQ2yF {\n\tbackground: url(/static/cards.png) -75px -99px;\n}\n\n.card_3_h___r1Hai {\n\tbackground: url(/static/cards.png) -148px -99px;\n}\n\n.card_4_h___2S9F_ {\n\tbackground: url(/static/cards.png) -220px -99px;\n}\n\n.card_5_h___T52pm {\n\tbackground: url(/static/cards.png) -294px -99px;\n}\n\n.card_6_h___VZGIo {\n\tbackground: url(/static/cards.png) -366px -99px;\n}\n\n.card_7_h___1uW3W {\n\tbackground: url(/static/cards.png) -440px -99px;\n}\n\n.card_8_h___3jeoq {\n\tbackground: url(/static/cards.png) -512px -99px;\n}\n\n.card_9_h___36kgO {\n\tbackground: url(/static/cards.png) -586px -99px;\n}\n\n.card_10_h___2KIch {\n\tbackground: url(/static/cards.png) -658px -99px;\n}\n\n.card_11_h___1FLJ8 {\n\tbackground: url(/static/cards.png) -732px -99px;\n}\n\n.card_12_h___3uYH7 {\n\tbackground: url(/static/cards.png) -804px -99px;\n}\n\n.card_13_h___3Xrgs {\n\tbackground: url(/static/cards.png) -878px -99px;\n}\n\n.card_1_s___-zfSt {\n\tbackground: url(/static/cards.png) -2px -197px;\n}\n\n.card_2_s___2sxuu {\n\tbackground: url(/static/cards.png) -75px -197px;\n}\n\n.card_3_s___veOMB {\n\tbackground: url(/static/cards.png) -148px -197px;\n}\n\n.card_4_s___t8lki {\n\tbackground: url(/static/cards.png) -220px -197px;\n}\n\n.card_5_s___1s2qU {\n\tbackground: url(/static/cards.png) -294px -197px;\n}\n\n.card_6_s___1cW_q {\n\tbackground: url(/static/cards.png) -366px -197px;\n}\n\n.card_7_s___2041l {\n\tbackground: url(/static/cards.png) -440px -197px;\n}\n\n.card_8_s___1e_K8 {\n\tbackground: url(/static/cards.png) -512px -197px;\n}\n\n.card_9_s___3Y0BF {\n\tbackground: url(/static/cards.png) -586px -197px;\n}\n\n.card_10_s___1y9FP {\n\tbackground: url(/static/cards.png) -658px -197px;\n}\n\n.card_11_s___2oMoR {\n\tbackground: url(/static/cards.png) -732px -197px;\n}\n\n.card_12_s___2Xjg_ {\n\tbackground: url(/static/cards.png) -804px -197px;\n}\n\n.card_13_s___2kKk- {\n\tbackground: url(/static/cards.png) -878px -197px;\n}\n\n.card_1_d___2f0ML {\n\tbackground: url(/static/cards.png) -2px -295px;\n}\n\n.card_2_d___x4wgy {\n\tbackground: url(/static/cards.png) -75px -295px;\n}\n\n.card_3_d___2zzYh {\n\tbackground: url(/static/cards.png) -148px -295px;\n}\n\n.card_4_d___2R4YB {\n\tbackground: url(/static/cards.png) -220px -295px;\n}\n\n.card_5_d___AMkBh {\n\tbackground: url(/static/cards.png) -294px -295px;\n}\n\n.card_6_d___w9xBd {\n\tbackground: url(/static/cards.png) -366px -295px;\n}\n\n.card_7_d___1ilPd {\n\tbackground: url(/static/cards.png) -440px -295px;\n}\n\n.card_8_d___2pz-t {\n\tbackground: url(/static/cards.png) -512px -295px;\n}\n\n.card_9_d___YAbOf {\n\tbackground: url(/static/cards.png) -586px -295px;\n}\n\n.card_10_d___12pRW {\n\tbackground: url(/static/cards.png) -658px -295px;\n}\n\n.card_11_d___Qqddc {\n\tbackground: url(/static/cards.png) -732px -295px;\n}\n\n.card_12_d___lRpHf {\n\tbackground: url(/static/cards.png) -804px -295px;\n}\n\n.card_13_d___1bk1M {\n\tbackground: url(/static/cards.png) -878px -295px;\n}\n\n.overlay___1dUV9 {\n\tposition: fixed;\n\ttop: 0;\n\tbottom: 0;\n\tleft: 0;\n\tright: 0;\n\tbackground: rgba(0, 0, 0, 0.7);\n\ttransition: opacity 500ms;\n}\n\n.overlay___1dUV9:target {\n\tvisibility: visible;\n\topacity: 1;\n}\n\n.popup___1pa36 {\n\tmargin: 0px auto;\n\tpadding: 20px;\n\tbackground: #fff;\n\tborder-radius: 5px;\n\twidth: 30%;\n\tposition: relative;\n\ttransition: all 5s ease-in-out;\n}\n\n/* http://meyerweb.com/eric/tools/css/reset/\n   v2.0 | 20110126\n   License: none (public domain)\n*/\n\nhtml,\nbody,\ndiv,\nspan,\napplet,\nobject,\niframe,\nh1,\nh2,\nh3,\nh4,\nh5,\nh6,\np,\nblockquote,\npre,\na,\nabbr,\nacronym,\naddress,\nbig,\ncite,\ncode,\ndel,\ndfn,\nem,\nimg,\nins,\nkbd,\nq,\ns,\nsamp,\nsmall,\nstrike,\nstrong,\nsub,\nsup,\ntt,\nvar,\nb,\nu,\ni,\ncenter,\ndl,\ndt,\ndd,\nol,\nul,\nli,\nfieldset,\nform,\nlabel,\nlegend,\ntable,\ncaption,\ntbody,\ntfoot,\nthead,\ntr,\nth,\ntd,\narticle,\naside,\ncanvas,\ndetails,\nembed,\nfigure,\nfigcaption,\nfooter,\nheader,\nhgroup,\nmenu,\nnav,\noutput,\nruby,\nsection,\nsummary,\ntime,\nmark,\naudio,\nvideo {\n\tmargin: 0;\n\tpadding: 0;\n\tborder: 0;\n\tfont-size: 100%;\n\tfont: inherit;\n\tvertical-align: baseline;\n}\n\n/* HTML5 display-role reset for older browsers */\narticle,\naside,\ndetails,\nfigcaption,\nfigure,\nfooter,\nheader,\nhgroup,\nmenu,\nnav,\nsection {\n\tdisplay: block;\n}\n\nbody {\n\tline-height: 1;\n}\n\nol,\nul {\n\tlist-style: none;\n}\n\nblockquote,\nq {\n\tquotes: none;\n}\n\nblockquote:before,\nblockquote:after,\nq:before,\nq:after {\n\tcontent: '';\n\tcontent: none;\n}\n\ntable {\n\tborder-collapse: collapse;\n\tborder-spacing: 0;\n}\n\n.history-container___3G5Dc {\n\tmargin: 50px;\n}\n\n.funny-message_____eR3 {\n\tcolor: #ccc;\n}\n\n.normal-message___JWJyo {}\n\n.update-message___3dMuu {\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-ms-flex-align: center;\n\t    align-items: center;\n\t-ms-flex-direction: row;\n\t    flex-direction: row;\n}\n\n.chat-input___1dfqy {\n\tborder-radius: 18px;\n\tborder: 1px solid #eee;\n\tbox-shadow: 0 0 5px 1px #eee inset;\n\tpadding: 10px;\n\twidth: 200px;\n}\n\n.chat-input___1dfqy:focus {\n\toutline: 0;\n}\n\n.speech-bubble___3CmhW {\n\t-webkit-user-select: none;\n\t   -moz-user-select: none;\n\t    -ms-user-select: none;\n\t        user-select: none;\n\tbackground: #eee;\n\tcursor: pointer;\n\tborder-radius: 4px;\n\twidth: 40px;\n\tpadding: 5px;\n\tposition: relative;\n\ttransform: scale(0.8);\n\tdisplay: inline-block;\n}\n\n.speech-bubble___3CmhW p:last-of-type {\n\tmargin-bottom: 0;\n}\n\n.speech-bubble___3CmhW::after {\n\tborder-left: 20px solid transparent;\n\tborder-top: 20px solid #eee;\n\tbottom: -15px;\n\tcontent: '';\n\tposition: absolute;\n\tright: 15px;\n}\n\n.fun-toggle___19yhi {\n\tvisibility: hidden;\n}\n\n.fun-messages___1jYcS {\n\tdisplay: none;\n\tfloat: right;\n\tpadding: 16px;\n\tposition: relative;\n\ttext-align: center;\n\tbox-shadow: 0 0 3px 1px #ccc;\n\twidth: 200px;\n\tbackground: #eee;\n}\n\n.fun-message___142D9 {\n\tcursor: pointer;\n\tmargin-top: 5px;\n}\n\n.fun-toggle___19yhi:checked~ul {\n\tdisplay: block;\n}\n\n.messages___2z42T {\n\tpadding: 10px;\n\tmax-height: 300px;\n\tmax-width: 350px;\n\toverflow: auto;\n}\n\n.messages___2z42T .message___1GnVq {\n\tmargin-top: 2px;\n}\n\n::-webkit-scrollbar {\n\t-webkit-appearance: none;\n\twidth: 7px;\n}\n\n::-webkit-scrollbar-thumb {\n\tborder-radius: 4px;\n\tbackground-color: rgba(0, 0, 0, 0.5);\n\t-webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);\n}\n", "", {"version":3,"sources":["/./components/styles.css"],"names":[],"mappings":"AAAA;CACC,qBAAc;CAAd,cAAc;CACd,wBAAoB;KAApB,oBAAoB;CACpB;;AAED;CACC,YAAY;CACZ,aAAa;CACb,iBAAiB;CACjB,mBAAmB;CACnB,+BAA+B;CAC/B,wCAAwC;CACxC,6BAA6B;CAC7B,sBAAsB;CACtB;;AAED;CACC,qBAAc;CAAd,cAAc;CACd,2BAAuB;KAAvB,uBAAuB;CACvB,sBAAwB;KAAxB,wBAAwB;CACxB,uBAAoB;KAApB,oBAAoB;CACpB,aAAa;CACb,cAAc;CACd,cAAc;CACd,mBAAmB;CACnB,uBAAuB;CACvB,2CAA2C;CAC3C,8BAA8B;CAC9B,uCAAuC;CACvC,iBAAiB;CACjB;;AAED;CACC,0BAA0B;CAC1B;;AAED;CACC,0BAA0B;CAC1B;;AAED;CACC,0BAA0B;CAC1B;;AAED;CACC,sBAAsB;CACtB,eAAe;CACf;;AAED;CACC,4BAA4B;CAC5B,eAAe;CACf;;AAED;CACC,eAAe;CACf,2BAA2B;CAC3B;;AAED;CACC,2CAA2C;CAC3C,uBAAuB;CACvB,yCAAyC;CACzC,8BAA8B;CAC9B;;AAED;CACC,gCAAgC;CAChC,gBAAgB;CAChB;;AAED;CACC,uBAAuB;CACvB,mBAAmB;CACnB,WAAW;CACX,QAAQ;CACR,YAAY;CACZ,cAAc;CACd,YAAY;CACZ,mBAAmB;CACnB,gBAAgB;CAChB,mCAA2B;CAC3B;;AAED;CACC;EACC,OAAO;EACP;;CAED;EACC,OAAO;EACP;;CAED;EACC,WAAW;EACX;CACD;;AAED;CACC,0CAA0C;CAC1C,iBAAiB;CACjB,gBAAgB;CAChB,0BAA0B;CAC1B,mBAAmB;CACnB;;AAED;CACC,mBAAmB;CACnB,gCAAgC;CAChC;;AAED;CACC,sBAAsB;CACtB;;AAED;CACC,YAAY;CACZ,wBAAwB;CACxB,YAAY;CACZ,aAAa;CACb,mBAAmB;CACnB,mBAAmB;CACnB,eAAe;CACf,SAAS;CACT,WAAW;CACX;;AAED;CACC,mBAAmB;CACnB,uBAAuB;CACvB,gCAAgC;CAChC,kBAAkB;CAClB,gBAAgB;CAChB,iBAAiB;CACjB,aAAa;CACb;;AAED;CACC,0BAA0B;CAC1B;;AAED;CACC,0BAA0B;CAC1B;;AAED;CACC,0BAA0B;CAC1B;;AAED;CACC,qBAAc;CAAd,cAAc;CACd,wBAAoB;KAApB,oBAAoB;CACpB,kBAAkB;CAClB;;AAED;CACC,kBAAkB;CAClB;;AAED;CACC,sBAAsB;CACtB,WAAW;CACX,mBAAmB;CACnB,YAAY;CACZ,cAAc;CACd,aAAa;CACb;;AAED;CACC,mBAAmB;CACnB,UAAU;CACV,WAAW;CACX,sBAAsB;CACtB,YAAY;CACZ,YAAY;CACZ,WAAW;CACX,UAAU;CACV,6BAA6B;CAC7B,WAAW;CACX;;AAED;CACC,aAAa;CACb;;AAED;CACC,YAAY;CACZ,aAAa;CACb,sBAAsB;CACtB,YAAY;CACZ;;AAED;CACC,qCAA6B;CAC7B;;AAED;CACC;EACC,6BAA6B;EAC7B;;CAED;EACC,2BAA2B;EAC3B;CACD;;AAED;CACC,eAAe;CACf;;AAED;;CAEC,gBAAgB;CAChB,oCAAoC;CACpC;;AAED;CACC,gDAAgD;CAChD,QAAQ;CACR;;AAED;CACC,kDAAkD;CAClD,UAAU;CACV;;AAED;CACC,kDAAkD;CAClD,UAAU;CACV;;AAED;CACC,iDAAiD;CACjD,UAAU;CACV;;AAED;CACC,iDAAiD;CACjD,UAAU;CACV;;AAED;CACC,+CAA+C;CAC/C,WAAW;CACX;;AAED;CACC,iDAAiD;CACjD,WAAW;CACX;;AAED;CACC,2DAA2D;CAC3D,QAAQ;CACR;;AAED;CACC,6DAA6D;CAC7D,UAAU;CACV;;AAED;CACC,6DAA6D;CAC7D,UAAU;CACV;;AAED;CACC,4DAA4D;CAC5D,UAAU;CACV;;AAED;CACC,4DAA4D;CAC5D,UAAU;CACV;;AAED;CACC,0DAA0D;CAC1D,WAAW;CACX;;AAED;CACC,4DAA4D;CAC5D,WAAW;CACX;;AAED;CACC,6CAA6C;CAC7C,sBAAsB;CACtB,6BAA6B;CAC7B,4BAA4B;CAC5B,oBAAoB;CACpB,uBAAuB;CACvB;;AAED;CACC,6CAA6C;CAC7C;;AAED;CACC,8CAA8C;CAC9C;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,8CAA8C;CAC9C;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,gBAAgB;CAChB,OAAO;CACP,UAAU;CACV,QAAQ;CACR,SAAS;CACT,+BAA+B;CAC/B,0BAA0B;CAC1B;;AAED;CACC,oBAAoB;CACpB,WAAW;CACX;;AAED;CACC,iBAAiB;CACjB,cAAc;CACd,iBAAiB;CACjB,mBAAmB;CACnB,WAAW;CACX,mBAAmB;CACnB,+BAA+B;CAC/B;;AAED;;;EAGE;;AAEF;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;CAiFC,UAAU;CACV,WAAW;CACX,UAAU;CACV,gBAAgB;CAChB,cAAc;CACd,yBAAyB;CACzB;;AAED,iDAAiD;AACjD;;;;;;;;;;;CAWC,eAAe;CACf;;AAED;CACC,eAAe;CACf;;AAED;;CAEC,iBAAiB;CACjB;;AAED;;CAEC,aAAa;CACb;;AAED;;;;CAIC,YAAY;CACZ,cAAc;CACd;;AAED;CACC,0BAA0B;CAC1B,kBAAkB;CAClB;;AAED;CACC,aAAa;CACb;;AAED;CACC,YAAY;CACZ;;AAED,0BAAkB;;AAElB;CACC,qBAAc;CAAd,cAAc;CACd,uBAAoB;KAApB,oBAAoB;CACpB,wBAAoB;KAApB,oBAAoB;CACpB;;AAED;CACC,oBAAoB;CACpB,uBAAuB;CACvB,mCAAmC;CACnC,cAAc;CACd,aAAa;CACb;;AAED;CACC,WAAW;CACX;;AAED;CACC,0BAAkB;IAAlB,uBAAkB;KAAlB,sBAAkB;SAAlB,kBAAkB;CAClB,iBAAiB;CACjB,gBAAgB;CAChB,mBAAmB;CACnB,YAAY;CACZ,aAAa;CACb,mBAAmB;CACnB,sBAAsB;CACtB,sBAAsB;CACtB;;AAED;CACC,iBAAiB;CACjB;;AAED;CACC,oCAAoC;CACpC,4BAA4B;CAC5B,cAAc;CACd,YAAY;CACZ,mBAAmB;CACnB,YAAY;CACZ;;AAED;CACC,mBAAmB;CACnB;;AAED;CACC,cAAc;CACd,aAAa;CACb,cAAc;CACd,mBAAmB;CACnB,mBAAmB;CACnB,6BAA6B;CAC7B,aAAa;CACb,iBAAiB;CACjB;;AAED;CACC,gBAAgB;CAChB,gBAAgB;CAChB;;AAED;CACC,eAAe;CACf;;AAED;CACC,cAAc;CACd,kBAAkB;CAClB,iBAAiB;CACjB,eAAe;CACf;;AAED;CACC,gBAAgB;CAChB;;AAED;CACC,yBAAyB;CACzB,WAAW;CACX;;AAED;CACC,mBAAmB;CACnB,qCAAqC;CACrC,qDAAqD;CACrD","file":"styles.css","sourcesContent":[".game {\n\tdisplay: flex;\n\tflex-direction: row;\n}\n\n.coin {\n\twidth: 75px;\n\theight: 75px;\n\tmargin: 15% auto;\n\tborder-radius: 50%;\n\tbox-shadow: 1px 0 2px 2px #000;\n\tbackground-image: url(/static/coin.png);\n\tbackground-repeat: no-repeat;\n\tbackground-size: 75px;\n}\n\n.control {\n\tdisplay: flex;\n\tflex-direction: column;\n\tjustify-content: center;\n\talign-items: center;\n\twidth: 400px;\n\theight: 400px;\n\tpadding: 10px;\n\tborder-radius: 50%;\n\tbackground-color: #fff;\n\tbackground-image: url(/static/pattern.png);\n\tbox-shadow: 0 0 10px 0px #000;\n\ttransition: background-color 0.5s ease;\n\tmargin-top: 50px;\n}\n\n.control.alert.red {\n\tbackground-color: #ef5350;\n}\n\n.control.alert.blue {\n\tbackground-color: #0091ea;\n}\n\n.control.alert.green {\n\tbackground-color: #a5d6a7;\n}\n\n.coin-red {\n\tbackground-color: red;\n\tmargin: 15% 0%;\n}\n\n.coin-green {\n\tbackground-color: lawngreen;\n\tmargin: 15% 0%;\n}\n\n.coin-blue {\n\tmargin: 15% 6%;\n\tbackground-color: darkblue;\n}\n\n.board {\n\tbackground-image: url(/static/pattern.png);\n\tbackground-color: #fff;\n\ttransform: scale(0.85) translateY(-99px);\n\tbox-shadow: 0 0 10px 2px #555;\n}\n\n.timer {\n\ttransition: font-size 0.5s ease;\n\tfont-size: 55px;\n}\n\n.toast {\n\tbackground-color: #000;\n\tposition: absolute;\n\ttop: -50px;\n\tleft: 0;\n\twidth: 100%;\n\tpadding: 10px;\n\tcolor: #fff;\n\ttext-align: center;\n\tfont-size: 20px;\n\tanimation: toaster 3s ease;\n}\n\n@keyframes toaster {\n\t10% {\n\t\ttop: 0;\n\t}\n\n\t90% {\n\t\ttop: 0;\n\t}\n\n\t100% {\n\t\ttop: -50px;\n\t}\n}\n\n.title {\n\tfont-family: 'Wallpoet', cursive, 'Arial';\n\tmargin-top: 20px;\n\tfont-size: 24px;\n\ttext-transform: uppercase;\n\ttext-align: center;\n}\n\n.avatar-box {\n\tposition: relative;\n\ttransition: transform 0.2s ease;\n}\n\n.avatar-current {\n\ttransform: scale(1.5);\n}\n\n.avatar-online:after {\n\tcontent: '';\n\tbackground-color: green;\n\twidth: 12px;\n\theight: 12px;\n\tborder-radius: 50%;\n\tposition: absolute;\n\tdisplay: block;\n\ttop: 5px;\n\tright: 8px;\n}\n\n.avatar {\n\tborder-radius: 50%;\n\tborder: 2px solid #fff;\n\ttransition: transform 0.5s ease;\n\tmargin-right: 5px;\n\tmin-width: 64px;\n\tmin-height: 64px;\n\tpadding: 2px;\n}\n\n.avatar-red {\n\tbackground-color: #ef5350;\n}\n\n.avatar-blue {\n\tbackground-color: #0091ea;\n}\n\n.avatar-green {\n\tbackground-color: #a5d6a7;\n}\n\n.players {\n\tdisplay: flex;\n\tflex-direction: row;\n\tpadding-top: 10px;\n}\n\n.players li.current {\n\tfont-weight: bold;\n}\n\n.hand {\n\tlist-style-type: none;\n\tpadding: 0;\n\tposition: relative;\n\tclear: both;\n\theight: 150px;\n\twidth: 250px;\n}\n\n.hand li {\n\tposition: absolute;\n\tmargin: 0;\n\tpadding: 0;\n\tlist-style-type: none;\n\tfloat: left;\n\theight: 8em;\n\twidth: 4em;\n\tbottom: 0;\n\ttransition: bottom 0.5s ease;\n\topacity: 1;\n}\n\n.hand li:hover~li {\n\topacity: 0.2;\n}\n\n.card {\n\twidth: 72px;\n\theight: 97px;\n\tdisplay: inline-block;\n\tmargin: 5px;\n}\n\n.hand .card {\n\tanimation: throwerIn 1s ease;\n}\n\n@keyframes throwerIn {\n\t0% {\n\t\ttransform: translateY(-80px);\n\t}\n\n\t100% {\n\t\ttransform: translateY(0px);\n\t}\n}\n\n.board .card {\n\theight: 10.3vh;\n}\n\n.board .card.hover,\n.board .card.chover:hover {\n\tcursor: pointer;\n\tbox-shadow: 0 0 16px 1px #000 inset;\n}\n\n.hand li:nth-child(1) {\n\ttransform: translate(0em, 0.9em) rotate(-18deg);\n\tleft: 0;\n}\n\n.hand li:nth-child(2) {\n\ttransform: translate(0.5em, 0.5em) rotate(-15deg);\n\tleft: 2em;\n}\n\n.hand li:nth-child(3) {\n\ttransform: translate(0.5em, 0.3em) rotate(-12deg);\n\tleft: 4em;\n}\n\n.hand li:nth-child(4) {\n\ttransform: translate(0.5em, 0.2em) rotate(-9deg);\n\tleft: 6em;\n}\n\n.hand li:nth-child(5) {\n\ttransform: translate(0.5em, 0.1em) rotate(-6deg);\n\tleft: 8em;\n}\n\n.hand li:nth-child(6) {\n\ttransform: translate(0.5em, 0em) rotate(-3deg);\n\tleft: 10em;\n}\n\n.hand li:nth-child(7) {\n\ttransform: translate(0.5em, -0.1em) rotate(0deg);\n\tleft: 12em;\n}\n\n.hand li:nth-child(1):hover {\n\ttransform: translate(0em, 0.9em) rotate(-18deg) scale(1.1);\n\tleft: 0;\n}\n\n.hand li:nth-child(2):hover {\n\ttransform: translate(0.5em, 0.5em) rotate(-15deg) scale(1.1);\n\tleft: 2em;\n}\n\n.hand li:nth-child(3):hover {\n\ttransform: translate(0.5em, 0.3em) rotate(-12deg) scale(1.1);\n\tleft: 4em;\n}\n\n.hand li:nth-child(4):hover {\n\ttransform: translate(0.5em, 0.2em) rotate(-9deg) scale(1.1);\n\tleft: 6em;\n}\n\n.hand li:nth-child(5):hover {\n\ttransform: translate(0.5em, 0.1em) rotate(-6deg) scale(1.1);\n\tleft: 8em;\n}\n\n.hand li:nth-child(6):hover {\n\ttransform: translate(0.5em, 0em) rotate(-3deg) scale(1.1);\n\tleft: 10em;\n}\n\n.hand li:nth-child(7):hover {\n\ttransform: translate(0.5em, -0.1em) rotate(0deg) scale(1.1);\n\tleft: 12em;\n}\n\n.card_open {\n\tbackground-image: url(/static/coin-open.jpg);\n\tbackground-size: 50px;\n\tbackground-repeat: no-repeat;\n\tbackground-position: center;\n\tborder-radius: 10px;\n\tbackground-color: #fff;\n}\n\n.card_1_c {\n\tbackground: url(/static/cards.png) -2px -1px;\n}\n\n.card_2_c {\n\tbackground: url(/static/cards.png) -75px -1px;\n}\n\n.card_3_c {\n\tbackground: url(/static/cards.png) -148px -1px;\n}\n\n.card_4_c {\n\tbackground: url(/static/cards.png) -220px -1px;\n}\n\n.card_5_c {\n\tbackground: url(/static/cards.png) -294px -1px;\n}\n\n.card_6_c {\n\tbackground: url(/static/cards.png) -366px -1px;\n}\n\n.card_7_c {\n\tbackground: url(/static/cards.png) -440px -1px;\n}\n\n.card_8_c {\n\tbackground: url(/static/cards.png) -512px -1px;\n}\n\n.card_9_c {\n\tbackground: url(/static/cards.png) -586px -1px;\n}\n\n.card_10_c {\n\tbackground: url(/static/cards.png) -658px -1px;\n}\n\n.card_11_c {\n\tbackground: url(/static/cards.png) -732px -1px;\n}\n\n.card_12_c {\n\tbackground: url(/static/cards.png) -804px -1px;\n}\n\n.card_13_c {\n\tbackground: url(/static/cards.png) -878px -1px;\n}\n\n.card_1_h {\n\tbackground: url(/static/cards.png) -2px -99px;\n}\n\n.card_2_h {\n\tbackground: url(/static/cards.png) -75px -99px;\n}\n\n.card_3_h {\n\tbackground: url(/static/cards.png) -148px -99px;\n}\n\n.card_4_h {\n\tbackground: url(/static/cards.png) -220px -99px;\n}\n\n.card_5_h {\n\tbackground: url(/static/cards.png) -294px -99px;\n}\n\n.card_6_h {\n\tbackground: url(/static/cards.png) -366px -99px;\n}\n\n.card_7_h {\n\tbackground: url(/static/cards.png) -440px -99px;\n}\n\n.card_8_h {\n\tbackground: url(/static/cards.png) -512px -99px;\n}\n\n.card_9_h {\n\tbackground: url(/static/cards.png) -586px -99px;\n}\n\n.card_10_h {\n\tbackground: url(/static/cards.png) -658px -99px;\n}\n\n.card_11_h {\n\tbackground: url(/static/cards.png) -732px -99px;\n}\n\n.card_12_h {\n\tbackground: url(/static/cards.png) -804px -99px;\n}\n\n.card_13_h {\n\tbackground: url(/static/cards.png) -878px -99px;\n}\n\n.card_1_s {\n\tbackground: url(/static/cards.png) -2px -197px;\n}\n\n.card_2_s {\n\tbackground: url(/static/cards.png) -75px -197px;\n}\n\n.card_3_s {\n\tbackground: url(/static/cards.png) -148px -197px;\n}\n\n.card_4_s {\n\tbackground: url(/static/cards.png) -220px -197px;\n}\n\n.card_5_s {\n\tbackground: url(/static/cards.png) -294px -197px;\n}\n\n.card_6_s {\n\tbackground: url(/static/cards.png) -366px -197px;\n}\n\n.card_7_s {\n\tbackground: url(/static/cards.png) -440px -197px;\n}\n\n.card_8_s {\n\tbackground: url(/static/cards.png) -512px -197px;\n}\n\n.card_9_s {\n\tbackground: url(/static/cards.png) -586px -197px;\n}\n\n.card_10_s {\n\tbackground: url(/static/cards.png) -658px -197px;\n}\n\n.card_11_s {\n\tbackground: url(/static/cards.png) -732px -197px;\n}\n\n.card_12_s {\n\tbackground: url(/static/cards.png) -804px -197px;\n}\n\n.card_13_s {\n\tbackground: url(/static/cards.png) -878px -197px;\n}\n\n.card_1_d {\n\tbackground: url(/static/cards.png) -2px -295px;\n}\n\n.card_2_d {\n\tbackground: url(/static/cards.png) -75px -295px;\n}\n\n.card_3_d {\n\tbackground: url(/static/cards.png) -148px -295px;\n}\n\n.card_4_d {\n\tbackground: url(/static/cards.png) -220px -295px;\n}\n\n.card_5_d {\n\tbackground: url(/static/cards.png) -294px -295px;\n}\n\n.card_6_d {\n\tbackground: url(/static/cards.png) -366px -295px;\n}\n\n.card_7_d {\n\tbackground: url(/static/cards.png) -440px -295px;\n}\n\n.card_8_d {\n\tbackground: url(/static/cards.png) -512px -295px;\n}\n\n.card_9_d {\n\tbackground: url(/static/cards.png) -586px -295px;\n}\n\n.card_10_d {\n\tbackground: url(/static/cards.png) -658px -295px;\n}\n\n.card_11_d {\n\tbackground: url(/static/cards.png) -732px -295px;\n}\n\n.card_12_d {\n\tbackground: url(/static/cards.png) -804px -295px;\n}\n\n.card_13_d {\n\tbackground: url(/static/cards.png) -878px -295px;\n}\n\n.overlay {\n\tposition: fixed;\n\ttop: 0;\n\tbottom: 0;\n\tleft: 0;\n\tright: 0;\n\tbackground: rgba(0, 0, 0, 0.7);\n\ttransition: opacity 500ms;\n}\n\n.overlay:target {\n\tvisibility: visible;\n\topacity: 1;\n}\n\n.popup {\n\tmargin: 0px auto;\n\tpadding: 20px;\n\tbackground: #fff;\n\tborder-radius: 5px;\n\twidth: 30%;\n\tposition: relative;\n\ttransition: all 5s ease-in-out;\n}\n\n/* http://meyerweb.com/eric/tools/css/reset/\n   v2.0 | 20110126\n   License: none (public domain)\n*/\n\nhtml,\nbody,\ndiv,\nspan,\napplet,\nobject,\niframe,\nh1,\nh2,\nh3,\nh4,\nh5,\nh6,\np,\nblockquote,\npre,\na,\nabbr,\nacronym,\naddress,\nbig,\ncite,\ncode,\ndel,\ndfn,\nem,\nimg,\nins,\nkbd,\nq,\ns,\nsamp,\nsmall,\nstrike,\nstrong,\nsub,\nsup,\ntt,\nvar,\nb,\nu,\ni,\ncenter,\ndl,\ndt,\ndd,\nol,\nul,\nli,\nfieldset,\nform,\nlabel,\nlegend,\ntable,\ncaption,\ntbody,\ntfoot,\nthead,\ntr,\nth,\ntd,\narticle,\naside,\ncanvas,\ndetails,\nembed,\nfigure,\nfigcaption,\nfooter,\nheader,\nhgroup,\nmenu,\nnav,\noutput,\nruby,\nsection,\nsummary,\ntime,\nmark,\naudio,\nvideo {\n\tmargin: 0;\n\tpadding: 0;\n\tborder: 0;\n\tfont-size: 100%;\n\tfont: inherit;\n\tvertical-align: baseline;\n}\n\n/* HTML5 display-role reset for older browsers */\narticle,\naside,\ndetails,\nfigcaption,\nfigure,\nfooter,\nheader,\nhgroup,\nmenu,\nnav,\nsection {\n\tdisplay: block;\n}\n\nbody {\n\tline-height: 1;\n}\n\nol,\nul {\n\tlist-style: none;\n}\n\nblockquote,\nq {\n\tquotes: none;\n}\n\nblockquote:before,\nblockquote:after,\nq:before,\nq:after {\n\tcontent: '';\n\tcontent: none;\n}\n\ntable {\n\tborder-collapse: collapse;\n\tborder-spacing: 0;\n}\n\n.history-container {\n\tmargin: 50px;\n}\n\n.funny-message {\n\tcolor: #ccc;\n}\n\n.normal-message {}\n\n.update-message {\n\tdisplay: flex;\n\talign-items: center;\n\tflex-direction: row;\n}\n\n.chat-input {\n\tborder-radius: 18px;\n\tborder: 1px solid #eee;\n\tbox-shadow: 0 0 5px 1px #eee inset;\n\tpadding: 10px;\n\twidth: 200px;\n}\n\n.chat-input:focus {\n\toutline: 0;\n}\n\n.speech-bubble {\n\tuser-select: none;\n\tbackground: #eee;\n\tcursor: pointer;\n\tborder-radius: 4px;\n\twidth: 40px;\n\tpadding: 5px;\n\tposition: relative;\n\ttransform: scale(0.8);\n\tdisplay: inline-block;\n}\n\n.speech-bubble p:last-of-type {\n\tmargin-bottom: 0;\n}\n\n.speech-bubble::after {\n\tborder-left: 20px solid transparent;\n\tborder-top: 20px solid #eee;\n\tbottom: -15px;\n\tcontent: '';\n\tposition: absolute;\n\tright: 15px;\n}\n\n.fun-toggle {\n\tvisibility: hidden;\n}\n\n.fun-messages {\n\tdisplay: none;\n\tfloat: right;\n\tpadding: 16px;\n\tposition: relative;\n\ttext-align: center;\n\tbox-shadow: 0 0 3px 1px #ccc;\n\twidth: 200px;\n\tbackground: #eee;\n}\n\n.fun-message {\n\tcursor: pointer;\n\tmargin-top: 5px;\n}\n\n.fun-toggle:checked~ul {\n\tdisplay: block;\n}\n\n.messages {\n\tpadding: 10px;\n\tmax-height: 300px;\n\tmax-width: 350px;\n\toverflow: auto;\n}\n\n.messages .message {\n\tmargin-top: 2px;\n}\n\n::-webkit-scrollbar {\n\t-webkit-appearance: none;\n\twidth: 7px;\n}\n\n::-webkit-scrollbar-thumb {\n\tborder-radius: 4px;\n\tbackground-color: rgba(0, 0, 0, 0.5);\n\t-webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);\n}\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, ".game___3Qu0q {\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-ms-flex-direction: row;\n\t    flex-direction: row;\n}\n\n.coin___GNlky {\n\twidth: 75px;\n\theight: 75px;\n\tmargin: 15% auto;\n\tborder-radius: 50%;\n\tbox-shadow: 1px 0 2px 2px #000;\n\tbackground-image: url(/static/coin.png);\n\tbackground-repeat: no-repeat;\n\tbackground-size: 75px;\n}\n\n.control___1OxmN {\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-ms-flex-direction: column;\n\t    flex-direction: column;\n\t-ms-flex-pack: center;\n\t    justify-content: center;\n\t-ms-flex-align: center;\n\t    align-items: center;\n\twidth: 400px;\n\theight: 400px;\n\tpadding: 10px;\n\tborder-radius: 50%;\n\tbackground-color: #fff;\n\tbackground-image: url(/static/pattern.png);\n\tbox-shadow: 0 0 10px 0px #000;\n\ttransition: background-color 0.5s ease;\n\tmargin-top: 50px;\n}\n\n.control___1OxmN.alert___3EFR8.red___3DsOb {\n\tbackground-color: #ef5350;\n}\n\n.control___1OxmN.alert___3EFR8.blue___2Sk54 {\n\tbackground-color: #0091ea;\n}\n\n.control___1OxmN.alert___3EFR8.green___3OCGy {\n\tbackground-color: #a5d6a7;\n}\n\n.coin-red___1so7u {\n\tbackground-color: red;\n\tmargin: 15% 0%;\n}\n\n.coin-green___1Vq67 {\n\tbackground-color: lawngreen;\n\tmargin: 15% 0%;\n}\n\n.coin-blue___17rh- {\n\tmargin: 15% 6%;\n\tbackground-color: darkblue;\n}\n\n.board___3hm97 {\n\tbackground-image: url(/static/pattern.png);\n\tbackground-color: #fff;\n\ttransform: scale(0.85) translateY(-99px);\n\tbox-shadow: 0 0 10px 2px #555;\n}\n\n.timer___2dZEo {\n\tfont-size: 40px;\n\tcolor: #fff;\n}\n\n.toast___2t8RT {\n\tbackground-color: #000;\n\tposition: absolute;\n\ttop: -50px;\n\tleft: 0;\n\twidth: 100%;\n\tpadding: 10px;\n\tcolor: #fff;\n\ttext-align: center;\n\tfont-size: 20px;\n\tanimation: toaster___1b40i 3s ease;\n}\n\n@keyframes toaster___1b40i {\n\t10% {\n\t\ttop: 0;\n\t}\n\n\t90% {\n\t\ttop: 0;\n\t}\n\n\t100% {\n\t\ttop: -50px;\n\t}\n}\n\n.title___1uuHz {\n\tfont-family: 'Wallpoet', cursive, 'Arial';\n\tmargin-top: 20px;\n\tfont-size: 24px;\n\ttext-transform: uppercase;\n\ttext-align: center;\n}\n\n.avatar-box___YCSy5 {\n\tposition: relative;\n\ttransition: transform 0.2s ease;\n}\n\n.avatar-current___2WjW- {\n\ttransform: scale(1.5);\n}\n\n.avatar-online___1JLng:after {\n\tcontent: '';\n\tbackground-color: green;\n\twidth: 12px;\n\theight: 12px;\n\tborder-radius: 50%;\n\tposition: absolute;\n\tdisplay: block;\n\ttop: 5px;\n\tright: 8px;\n}\n\n.avatar___2voJI {\n\tborder-radius: 50%;\n\tborder: 2px solid #fff;\n\ttransition: transform 0.5s ease;\n\tmargin-right: 5px;\n\tmin-width: 64px;\n\tmin-height: 64px;\n\tpadding: 2px;\n}\n\n.avatar-red___34drd {\n\tbackground-color: #ef5350;\n}\n\n.avatar-blue___EDS1V {\n\tbackground-color: #0091ea;\n}\n\n.avatar-green___3fhcB {\n\tbackground-color: #a5d6a7;\n}\n\n.players___1Zr2t {\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-ms-flex-direction: row;\n\t    flex-direction: row;\n\tpadding-top: 10px;\n}\n\n.players___1Zr2t li.current___1dT7h {\n\tfont-weight: bold;\n}\n\n.hand___3WEBO {\n\tlist-style-type: none;\n\tpadding: 0;\n\tposition: relative;\n\tclear: both;\n\theight: 150px;\n\twidth: 250px;\n}\n\n.hand___3WEBO li {\n\tposition: absolute;\n\tmargin: 0;\n\tpadding: 0;\n\tlist-style-type: none;\n\tfloat: left;\n\theight: 8em;\n\twidth: 4em;\n\tbottom: 0;\n\ttransition: bottom 0.5s ease;\n\topacity: 1;\n}\n\n.small___2OOEM {\n\tfont-size: 20px;\n}\n\n.hand___3WEBO li:hover~li {\n\topacity: 0.2;\n}\n\n.card___1dy8c {\n\twidth: 72px;\n\theight: 97px;\n\tdisplay: inline-block;\n\tmargin: 5px;\n}\n\n.hand___3WEBO .card___1dy8c {\n\tanimation: throwerIn___3D2T3 1s ease;\n}\n\n@keyframes throwerIn___3D2T3 {\n\t0% {\n\t\ttransform: translateY(-80px);\n\t}\n\n\t100% {\n\t\ttransform: translateY(0px);\n\t}\n}\n\n.board___3hm97 .card___1dy8c {\n\theight: 10.3vh;\n}\n\n.board___3hm97 .card___1dy8c.hover___10LXM,\n.board___3hm97 .card___1dy8c.chover___1-HWf:hover {\n\tcursor: pointer;\n\tbox-shadow: 0 0 16px 1px #000 inset;\n}\n\n.hand___3WEBO li:nth-child(1) {\n\ttransform: translate(0em, 0.9em) rotate(-18deg);\n\tleft: 0;\n}\n\n.hand___3WEBO li:nth-child(2) {\n\ttransform: translate(0.5em, 0.5em) rotate(-15deg);\n\tleft: 2em;\n}\n\n.hand___3WEBO li:nth-child(3) {\n\ttransform: translate(0.5em, 0.3em) rotate(-12deg);\n\tleft: 4em;\n}\n\n.hand___3WEBO li:nth-child(4) {\n\ttransform: translate(0.5em, 0.2em) rotate(-9deg);\n\tleft: 6em;\n}\n\n.hand___3WEBO li:nth-child(5) {\n\ttransform: translate(0.5em, 0.1em) rotate(-6deg);\n\tleft: 8em;\n}\n\n.hand___3WEBO li:nth-child(6) {\n\ttransform: translate(0.5em, 0em) rotate(-3deg);\n\tleft: 10em;\n}\n\n.hand___3WEBO li:nth-child(7) {\n\ttransform: translate(0.5em, -0.1em) rotate(0deg);\n\tleft: 12em;\n}\n\n.hand___3WEBO li:nth-child(1):hover {\n\ttransform: translate(0em, 0.9em) rotate(-18deg) scale(1.1);\n\tleft: 0;\n}\n\n.hand___3WEBO li:nth-child(2):hover {\n\ttransform: translate(0.5em, 0.5em) rotate(-15deg) scale(1.1);\n\tleft: 2em;\n}\n\n.hand___3WEBO li:nth-child(3):hover {\n\ttransform: translate(0.5em, 0.3em) rotate(-12deg) scale(1.1);\n\tleft: 4em;\n}\n\n.hand___3WEBO li:nth-child(4):hover {\n\ttransform: translate(0.5em, 0.2em) rotate(-9deg) scale(1.1);\n\tleft: 6em;\n}\n\n.hand___3WEBO li:nth-child(5):hover {\n\ttransform: translate(0.5em, 0.1em) rotate(-6deg) scale(1.1);\n\tleft: 8em;\n}\n\n.hand___3WEBO li:nth-child(6):hover {\n\ttransform: translate(0.5em, 0em) rotate(-3deg) scale(1.1);\n\tleft: 10em;\n}\n\n.hand___3WEBO li:nth-child(7):hover {\n\ttransform: translate(0.5em, -0.1em) rotate(0deg) scale(1.1);\n\tleft: 12em;\n}\n\n.card_new___bNunR {\n\tanimation: zoom___1ABHb 2s ease !important;\n}\n\n@keyframes zoom___1ABHb {\n\t0% {\n\t\ttransform: scale(1);\n\t}\n\n\t50% {\n\t\ttransform: scale(1.5);\n\t}\n\n\t100% {\n\t\ttransform: scale(1);\n\t}\n}\n\n.card_open___2c6wm {\n\tbackground-image: url(/static/coin-open.jpg);\n\tbackground-size: 50px;\n\tbackground-repeat: no-repeat;\n\tbackground-position: center;\n\tborder-radius: 10px;\n\tbackground-color: #fff;\n}\n\n.card_1_c___MiWzI {\n\tbackground: url(/static/cards.png) -2px -1px;\n}\n\n.card_2_c___1_Q8g {\n\tbackground: url(/static/cards.png) -75px -1px;\n}\n\n.card_3_c___2EZEQ {\n\tbackground: url(/static/cards.png) -148px -1px;\n}\n\n.card_4_c___1wAed {\n\tbackground: url(/static/cards.png) -220px -1px;\n}\n\n.card_5_c___3HWah {\n\tbackground: url(/static/cards.png) -294px -1px;\n}\n\n.card_6_c___38IVz {\n\tbackground: url(/static/cards.png) -366px -1px;\n}\n\n.card_7_c___12CFV {\n\tbackground: url(/static/cards.png) -440px -1px;\n}\n\n.card_8_c___3wyhD {\n\tbackground: url(/static/cards.png) -512px -1px;\n}\n\n.card_9_c___Z14Q5 {\n\tbackground: url(/static/cards.png) -586px -1px;\n}\n\n.card_10_c___2-rbC {\n\tbackground: url(/static/cards.png) -658px -1px;\n}\n\n.card_11_c___3PPzC {\n\tbackground: url(/static/cards.png) -732px -1px;\n}\n\n.card_12_c___3sMLM {\n\tbackground: url(/static/cards.png) -804px -1px;\n}\n\n.card_13_c___3rGj7 {\n\tbackground: url(/static/cards.png) -878px -1px;\n}\n\n.card_1_h___3MF4N {\n\tbackground: url(/static/cards.png) -2px -99px;\n}\n\n.card_2_h___iQ2yF {\n\tbackground: url(/static/cards.png) -75px -99px;\n}\n\n.card_3_h___r1Hai {\n\tbackground: url(/static/cards.png) -148px -99px;\n}\n\n.card_4_h___2S9F_ {\n\tbackground: url(/static/cards.png) -220px -99px;\n}\n\n.card_5_h___T52pm {\n\tbackground: url(/static/cards.png) -294px -99px;\n}\n\n.card_6_h___VZGIo {\n\tbackground: url(/static/cards.png) -366px -99px;\n}\n\n.card_7_h___1uW3W {\n\tbackground: url(/static/cards.png) -440px -99px;\n}\n\n.card_8_h___3jeoq {\n\tbackground: url(/static/cards.png) -512px -99px;\n}\n\n.card_9_h___36kgO {\n\tbackground: url(/static/cards.png) -586px -99px;\n}\n\n.card_10_h___2KIch {\n\tbackground: url(/static/cards.png) -658px -99px;\n}\n\n.card_11_h___1FLJ8 {\n\tbackground: url(/static/cards.png) -732px -99px;\n}\n\n.card_12_h___3uYH7 {\n\tbackground: url(/static/cards.png) -804px -99px;\n}\n\n.card_13_h___3Xrgs {\n\tbackground: url(/static/cards.png) -878px -99px;\n}\n\n.card_1_s___-zfSt {\n\tbackground: url(/static/cards.png) -2px -197px;\n}\n\n.card_2_s___2sxuu {\n\tbackground: url(/static/cards.png) -75px -197px;\n}\n\n.card_3_s___veOMB {\n\tbackground: url(/static/cards.png) -148px -197px;\n}\n\n.card_4_s___t8lki {\n\tbackground: url(/static/cards.png) -220px -197px;\n}\n\n.card_5_s___1s2qU {\n\tbackground: url(/static/cards.png) -294px -197px;\n}\n\n.card_6_s___1cW_q {\n\tbackground: url(/static/cards.png) -366px -197px;\n}\n\n.card_7_s___2041l {\n\tbackground: url(/static/cards.png) -440px -197px;\n}\n\n.card_8_s___1e_K8 {\n\tbackground: url(/static/cards.png) -512px -197px;\n}\n\n.card_9_s___3Y0BF {\n\tbackground: url(/static/cards.png) -586px -197px;\n}\n\n.card_10_s___1y9FP {\n\tbackground: url(/static/cards.png) -658px -197px;\n}\n\n.card_11_s___2oMoR {\n\tbackground: url(/static/cards.png) -732px -197px;\n}\n\n.card_12_s___2Xjg_ {\n\tbackground: url(/static/cards.png) -804px -197px;\n}\n\n.card_13_s___2kKk- {\n\tbackground: url(/static/cards.png) -878px -197px;\n}\n\n.card_1_d___2f0ML {\n\tbackground: url(/static/cards.png) -2px -295px;\n}\n\n.card_2_d___x4wgy {\n\tbackground: url(/static/cards.png) -75px -295px;\n}\n\n.card_3_d___2zzYh {\n\tbackground: url(/static/cards.png) -148px -295px;\n}\n\n.card_4_d___2R4YB {\n\tbackground: url(/static/cards.png) -220px -295px;\n}\n\n.card_5_d___AMkBh {\n\tbackground: url(/static/cards.png) -294px -295px;\n}\n\n.card_6_d___w9xBd {\n\tbackground: url(/static/cards.png) -366px -295px;\n}\n\n.card_7_d___1ilPd {\n\tbackground: url(/static/cards.png) -440px -295px;\n}\n\n.card_8_d___2pz-t {\n\tbackground: url(/static/cards.png) -512px -295px;\n}\n\n.card_9_d___YAbOf {\n\tbackground: url(/static/cards.png) -586px -295px;\n}\n\n.card_10_d___12pRW {\n\tbackground: url(/static/cards.png) -658px -295px;\n}\n\n.card_11_d___Qqddc {\n\tbackground: url(/static/cards.png) -732px -295px;\n}\n\n.card_12_d___lRpHf {\n\tbackground: url(/static/cards.png) -804px -295px;\n}\n\n.card_13_d___1bk1M {\n\tbackground: url(/static/cards.png) -878px -295px;\n}\n\n.overlay___1dUV9 {\n\tposition: fixed;\n\ttop: 0;\n\tbottom: 0;\n\tleft: 0;\n\tright: 0;\n\tbackground: rgba(0, 0, 0, 0.7);\n\ttransition: opacity 500ms;\n}\n\n.overlay___1dUV9:target {\n\tvisibility: visible;\n\topacity: 1;\n}\n\n.popup___1pa36 {\n\tmargin: 0px auto;\n\tpadding: 20px;\n\tbackground: #fff;\n\tborder-radius: 5px;\n\twidth: 30%;\n\tposition: relative;\n\ttransition: all 5s ease-in-out;\n}\n\n/* http://meyerweb.com/eric/tools/css/reset/\n   v2.0 | 20110126\n   License: none (public domain)\n*/\n\nhtml,\nbody,\ndiv,\nspan,\napplet,\nobject,\niframe,\nh1,\nh2,\nh3,\nh4,\nh5,\nh6,\np,\nblockquote,\npre,\na,\nabbr,\nacronym,\naddress,\nbig,\ncite,\ncode,\ndel,\ndfn,\nem,\nimg,\nins,\nkbd,\nq,\ns,\nsamp,\nsmall,\nstrike,\nstrong,\nsub,\nsup,\ntt,\nvar,\nb,\nu,\ni,\ncenter,\ndl,\ndt,\ndd,\nol,\nul,\nli,\nfieldset,\nform,\nlabel,\nlegend,\ntable,\ncaption,\ntbody,\ntfoot,\nthead,\ntr,\nth,\ntd,\narticle,\naside,\ncanvas,\ndetails,\nembed,\nfigure,\nfigcaption,\nfooter,\nheader,\nhgroup,\nmenu,\nnav,\noutput,\nruby,\nsection,\nsummary,\ntime,\nmark,\naudio,\nvideo {\n\tmargin: 0;\n\tpadding: 0;\n\tborder: 0;\n\tfont-size: 100%;\n\tfont: inherit;\n\tvertical-align: baseline;\n}\n\n/* HTML5 display-role reset for older browsers */\narticle,\naside,\ndetails,\nfigcaption,\nfigure,\nfooter,\nheader,\nhgroup,\nmenu,\nnav,\nsection {\n\tdisplay: block;\n}\n\nbody {\n\tline-height: 1;\n}\n\nol,\nul {\n\tlist-style: none;\n}\n\nblockquote,\nq {\n\tquotes: none;\n}\n\nblockquote:before,\nblockquote:after,\nq:before,\nq:after {\n\tcontent: '';\n\tcontent: none;\n}\n\ntable {\n\tborder-collapse: collapse;\n\tborder-spacing: 0;\n}\n\n.history-container___3G5Dc {\n\tmargin: 50px;\n}\n\n.funny-message_____eR3 {\n\tcolor: #ccc;\n}\n\n.normal-message___JWJyo {}\n\n.subtitle___8PQJI {\n\tfont-size: 12px;\n\tcolor: #555;\n\tfont-style: italic;\n}\n\n.update-message___3dMuu {\n\tdisplay: -ms-flexbox;\n\tdisplay: flex;\n\t-ms-flex-align: center;\n\t    align-items: center;\n\t-ms-flex-direction: row;\n\t    flex-direction: row;\n}\n\n.chat-input___1dfqy {\n\tborder-radius: 18px;\n\tborder: 1px solid #eee;\n\tbox-shadow: 0 0 5px 1px #eee inset;\n\tpadding: 10px;\n\twidth: 30vw;\n}\n\n.chat-input___1dfqy:focus {\n\toutline: 0;\n}\n\n.speech-bubble___3CmhW {\n\t-webkit-user-select: none;\n\t   -moz-user-select: none;\n\t    -ms-user-select: none;\n\t        user-select: none;\n\tbackground: #eee;\n\tcursor: pointer;\n\tborder-radius: 4px;\n\twidth: 40px;\n\tpadding: 5px;\n\tposition: relative;\n\ttransform: scale(0.8);\n\tdisplay: inline-block;\n}\n\n.speech-bubble___3CmhW p:last-of-type {\n\tmargin-bottom: 0;\n}\n\n.speech-bubble___3CmhW::after {\n\tborder-left: 20px solid transparent;\n\tborder-top: 20px solid #eee;\n\tbottom: -15px;\n\tcontent: '';\n\tposition: absolute;\n\tright: 15px;\n}\n\n.fun-toggle___19yhi {\n\tvisibility: hidden;\n}\n\n.fun-messages___1jYcS {\n\tdisplay: none;\n\tfloat: right;\n\tpadding: 16px;\n\tposition: relative;\n\ttext-align: center;\n\tbox-shadow: 0 0 3px 1px #ccc;\n\twidth: 200px;\n\tbackground: #eee;\n}\n\n.fun-message___142D9 {\n\tcursor: pointer;\n\tmargin-top: 5px;\n}\n\n.fun-toggle___19yhi:checked~ul {\n\tdisplay: block;\n}\n\n.messages___2z42T {\n\tpadding: 10px;\n\tmax-height: 300px;\n\tmax-width: 350px;\n\toverflow: auto;\n}\n\n.messages___2z42T .message___1GnVq {\n\tmargin-top: 2px;\n}\n\n::-webkit-scrollbar {\n\t-webkit-appearance: none;\n\twidth: 7px;\n}\n\n::-webkit-scrollbar-thumb {\n\tborder-radius: 4px;\n\tbackground-color: rgba(0, 0, 0, 0.5);\n\t-webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);\n}\n", "", {"version":3,"sources":["/./components/styles.css"],"names":[],"mappings":"AAAA;CACC,qBAAc;CAAd,cAAc;CACd,wBAAoB;KAApB,oBAAoB;CACpB;;AAED;CACC,YAAY;CACZ,aAAa;CACb,iBAAiB;CACjB,mBAAmB;CACnB,+BAA+B;CAC/B,wCAAwC;CACxC,6BAA6B;CAC7B,sBAAsB;CACtB;;AAED;CACC,qBAAc;CAAd,cAAc;CACd,2BAAuB;KAAvB,uBAAuB;CACvB,sBAAwB;KAAxB,wBAAwB;CACxB,uBAAoB;KAApB,oBAAoB;CACpB,aAAa;CACb,cAAc;CACd,cAAc;CACd,mBAAmB;CACnB,uBAAuB;CACvB,2CAA2C;CAC3C,8BAA8B;CAC9B,uCAAuC;CACvC,iBAAiB;CACjB;;AAED;CACC,0BAA0B;CAC1B;;AAED;CACC,0BAA0B;CAC1B;;AAED;CACC,0BAA0B;CAC1B;;AAED;CACC,sBAAsB;CACtB,eAAe;CACf;;AAED;CACC,4BAA4B;CAC5B,eAAe;CACf;;AAED;CACC,eAAe;CACf,2BAA2B;CAC3B;;AAED;CACC,2CAA2C;CAC3C,uBAAuB;CACvB,yCAAyC;CACzC,8BAA8B;CAC9B;;AAED;CACC,gBAAgB;CAChB,YAAY;CACZ;;AAED;CACC,uBAAuB;CACvB,mBAAmB;CACnB,WAAW;CACX,QAAQ;CACR,YAAY;CACZ,cAAc;CACd,YAAY;CACZ,mBAAmB;CACnB,gBAAgB;CAChB,mCAA2B;CAC3B;;AAED;CACC;EACC,OAAO;EACP;;CAED;EACC,OAAO;EACP;;CAED;EACC,WAAW;EACX;CACD;;AAED;CACC,0CAA0C;CAC1C,iBAAiB;CACjB,gBAAgB;CAChB,0BAA0B;CAC1B,mBAAmB;CACnB;;AAED;CACC,mBAAmB;CACnB,gCAAgC;CAChC;;AAED;CACC,sBAAsB;CACtB;;AAED;CACC,YAAY;CACZ,wBAAwB;CACxB,YAAY;CACZ,aAAa;CACb,mBAAmB;CACnB,mBAAmB;CACnB,eAAe;CACf,SAAS;CACT,WAAW;CACX;;AAED;CACC,mBAAmB;CACnB,uBAAuB;CACvB,gCAAgC;CAChC,kBAAkB;CAClB,gBAAgB;CAChB,iBAAiB;CACjB,aAAa;CACb;;AAED;CACC,0BAA0B;CAC1B;;AAED;CACC,0BAA0B;CAC1B;;AAED;CACC,0BAA0B;CAC1B;;AAED;CACC,qBAAc;CAAd,cAAc;CACd,wBAAoB;KAApB,oBAAoB;CACpB,kBAAkB;CAClB;;AAED;CACC,kBAAkB;CAClB;;AAED;CACC,sBAAsB;CACtB,WAAW;CACX,mBAAmB;CACnB,YAAY;CACZ,cAAc;CACd,aAAa;CACb;;AAED;CACC,mBAAmB;CACnB,UAAU;CACV,WAAW;CACX,sBAAsB;CACtB,YAAY;CACZ,YAAY;CACZ,WAAW;CACX,UAAU;CACV,6BAA6B;CAC7B,WAAW;CACX;;AAED;CACC,gBAAgB;CAChB;;AAED;CACC,aAAa;CACb;;AAED;CACC,YAAY;CACZ,aAAa;CACb,sBAAsB;CACtB,YAAY;CACZ;;AAED;CACC,qCAA6B;CAC7B;;AAED;CACC;EACC,6BAA6B;EAC7B;;CAED;EACC,2BAA2B;EAC3B;CACD;;AAED;CACC,eAAe;CACf;;AAED;;CAEC,gBAAgB;CAChB,oCAAoC;CACpC;;AAED;CACC,gDAAgD;CAChD,QAAQ;CACR;;AAED;CACC,kDAAkD;CAClD,UAAU;CACV;;AAED;CACC,kDAAkD;CAClD,UAAU;CACV;;AAED;CACC,iDAAiD;CACjD,UAAU;CACV;;AAED;CACC,iDAAiD;CACjD,UAAU;CACV;;AAED;CACC,+CAA+C;CAC/C,WAAW;CACX;;AAED;CACC,iDAAiD;CACjD,WAAW;CACX;;AAED;CACC,2DAA2D;CAC3D,QAAQ;CACR;;AAED;CACC,6DAA6D;CAC7D,UAAU;CACV;;AAED;CACC,6DAA6D;CAC7D,UAAU;CACV;;AAED;CACC,4DAA4D;CAC5D,UAAU;CACV;;AAED;CACC,4DAA4D;CAC5D,UAAU;CACV;;AAED;CACC,0DAA0D;CAC1D,WAAW;CACX;;AAED;CACC,4DAA4D;CAC5D,WAAW;CACX;;AAED;CACC,2CAAmC;CACnC;;AAED;CACC;EACC,oBAAoB;EACpB;;CAED;EACC,sBAAsB;EACtB;;CAED;EACC,oBAAoB;EACpB;CACD;;AAED;CACC,6CAA6C;CAC7C,sBAAsB;CACtB,6BAA6B;CAC7B,4BAA4B;CAC5B,oBAAoB;CACpB,uBAAuB;CACvB;;AAED;CACC,6CAA6C;CAC7C;;AAED;CACC,8CAA8C;CAC9C;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,8CAA8C;CAC9C;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,+CAA+C;CAC/C;;AAED;CACC,gDAAgD;CAChD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,iDAAiD;CACjD;;AAED;CACC,gBAAgB;CAChB,OAAO;CACP,UAAU;CACV,QAAQ;CACR,SAAS;CACT,+BAA+B;CAC/B,0BAA0B;CAC1B;;AAED;CACC,oBAAoB;CACpB,WAAW;CACX;;AAED;CACC,iBAAiB;CACjB,cAAc;CACd,iBAAiB;CACjB,mBAAmB;CACnB,WAAW;CACX,mBAAmB;CACnB,+BAA+B;CAC/B;;AAED;;;EAGE;;AAEF;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;CAiFC,UAAU;CACV,WAAW;CACX,UAAU;CACV,gBAAgB;CAChB,cAAc;CACd,yBAAyB;CACzB;;AAED,iDAAiD;AACjD;;;;;;;;;;;CAWC,eAAe;CACf;;AAED;CACC,eAAe;CACf;;AAED;;CAEC,iBAAiB;CACjB;;AAED;;CAEC,aAAa;CACb;;AAED;;;;CAIC,YAAY;CACZ,cAAc;CACd;;AAED;CACC,0BAA0B;CAC1B,kBAAkB;CAClB;;AAED;CACC,aAAa;CACb;;AAED;CACC,YAAY;CACZ;;AAED,0BAAkB;;AAElB;CACC,gBAAgB;CAChB,YAAY;CACZ,mBAAmB;CACnB;;AAED;CACC,qBAAc;CAAd,cAAc;CACd,uBAAoB;KAApB,oBAAoB;CACpB,wBAAoB;KAApB,oBAAoB;CACpB;;AAED;CACC,oBAAoB;CACpB,uBAAuB;CACvB,mCAAmC;CACnC,cAAc;CACd,YAAY;CACZ;;AAED;CACC,WAAW;CACX;;AAED;CACC,0BAAkB;IAAlB,uBAAkB;KAAlB,sBAAkB;SAAlB,kBAAkB;CAClB,iBAAiB;CACjB,gBAAgB;CAChB,mBAAmB;CACnB,YAAY;CACZ,aAAa;CACb,mBAAmB;CACnB,sBAAsB;CACtB,sBAAsB;CACtB;;AAED;CACC,iBAAiB;CACjB;;AAED;CACC,oCAAoC;CACpC,4BAA4B;CAC5B,cAAc;CACd,YAAY;CACZ,mBAAmB;CACnB,YAAY;CACZ;;AAED;CACC,mBAAmB;CACnB;;AAED;CACC,cAAc;CACd,aAAa;CACb,cAAc;CACd,mBAAmB;CACnB,mBAAmB;CACnB,6BAA6B;CAC7B,aAAa;CACb,iBAAiB;CACjB;;AAED;CACC,gBAAgB;CAChB,gBAAgB;CAChB;;AAED;CACC,eAAe;CACf;;AAED;CACC,cAAc;CACd,kBAAkB;CAClB,iBAAiB;CACjB,eAAe;CACf;;AAED;CACC,gBAAgB;CAChB;;AAED;CACC,yBAAyB;CACzB,WAAW;CACX;;AAED;CACC,mBAAmB;CACnB,qCAAqC;CACrC,qDAAqD;CACrD","file":"styles.css","sourcesContent":[".game {\n\tdisplay: flex;\n\tflex-direction: row;\n}\n\n.coin {\n\twidth: 75px;\n\theight: 75px;\n\tmargin: 15% auto;\n\tborder-radius: 50%;\n\tbox-shadow: 1px 0 2px 2px #000;\n\tbackground-image: url(/static/coin.png);\n\tbackground-repeat: no-repeat;\n\tbackground-size: 75px;\n}\n\n.control {\n\tdisplay: flex;\n\tflex-direction: column;\n\tjustify-content: center;\n\talign-items: center;\n\twidth: 400px;\n\theight: 400px;\n\tpadding: 10px;\n\tborder-radius: 50%;\n\tbackground-color: #fff;\n\tbackground-image: url(/static/pattern.png);\n\tbox-shadow: 0 0 10px 0px #000;\n\ttransition: background-color 0.5s ease;\n\tmargin-top: 50px;\n}\n\n.control.alert.red {\n\tbackground-color: #ef5350;\n}\n\n.control.alert.blue {\n\tbackground-color: #0091ea;\n}\n\n.control.alert.green {\n\tbackground-color: #a5d6a7;\n}\n\n.coin-red {\n\tbackground-color: red;\n\tmargin: 15% 0%;\n}\n\n.coin-green {\n\tbackground-color: lawngreen;\n\tmargin: 15% 0%;\n}\n\n.coin-blue {\n\tmargin: 15% 6%;\n\tbackground-color: darkblue;\n}\n\n.board {\n\tbackground-image: url(/static/pattern.png);\n\tbackground-color: #fff;\n\ttransform: scale(0.85) translateY(-99px);\n\tbox-shadow: 0 0 10px 2px #555;\n}\n\n.timer {\n\tfont-size: 40px;\n\tcolor: #fff;\n}\n\n.toast {\n\tbackground-color: #000;\n\tposition: absolute;\n\ttop: -50px;\n\tleft: 0;\n\twidth: 100%;\n\tpadding: 10px;\n\tcolor: #fff;\n\ttext-align: center;\n\tfont-size: 20px;\n\tanimation: toaster 3s ease;\n}\n\n@keyframes toaster {\n\t10% {\n\t\ttop: 0;\n\t}\n\n\t90% {\n\t\ttop: 0;\n\t}\n\n\t100% {\n\t\ttop: -50px;\n\t}\n}\n\n.title {\n\tfont-family: 'Wallpoet', cursive, 'Arial';\n\tmargin-top: 20px;\n\tfont-size: 24px;\n\ttext-transform: uppercase;\n\ttext-align: center;\n}\n\n.avatar-box {\n\tposition: relative;\n\ttransition: transform 0.2s ease;\n}\n\n.avatar-current {\n\ttransform: scale(1.5);\n}\n\n.avatar-online:after {\n\tcontent: '';\n\tbackground-color: green;\n\twidth: 12px;\n\theight: 12px;\n\tborder-radius: 50%;\n\tposition: absolute;\n\tdisplay: block;\n\ttop: 5px;\n\tright: 8px;\n}\n\n.avatar {\n\tborder-radius: 50%;\n\tborder: 2px solid #fff;\n\ttransition: transform 0.5s ease;\n\tmargin-right: 5px;\n\tmin-width: 64px;\n\tmin-height: 64px;\n\tpadding: 2px;\n}\n\n.avatar-red {\n\tbackground-color: #ef5350;\n}\n\n.avatar-blue {\n\tbackground-color: #0091ea;\n}\n\n.avatar-green {\n\tbackground-color: #a5d6a7;\n}\n\n.players {\n\tdisplay: flex;\n\tflex-direction: row;\n\tpadding-top: 10px;\n}\n\n.players li.current {\n\tfont-weight: bold;\n}\n\n.hand {\n\tlist-style-type: none;\n\tpadding: 0;\n\tposition: relative;\n\tclear: both;\n\theight: 150px;\n\twidth: 250px;\n}\n\n.hand li {\n\tposition: absolute;\n\tmargin: 0;\n\tpadding: 0;\n\tlist-style-type: none;\n\tfloat: left;\n\theight: 8em;\n\twidth: 4em;\n\tbottom: 0;\n\ttransition: bottom 0.5s ease;\n\topacity: 1;\n}\n\n.small {\n\tfont-size: 20px;\n}\n\n.hand li:hover~li {\n\topacity: 0.2;\n}\n\n.card {\n\twidth: 72px;\n\theight: 97px;\n\tdisplay: inline-block;\n\tmargin: 5px;\n}\n\n.hand .card {\n\tanimation: throwerIn 1s ease;\n}\n\n@keyframes throwerIn {\n\t0% {\n\t\ttransform: translateY(-80px);\n\t}\n\n\t100% {\n\t\ttransform: translateY(0px);\n\t}\n}\n\n.board .card {\n\theight: 10.3vh;\n}\n\n.board .card.hover,\n.board .card.chover:hover {\n\tcursor: pointer;\n\tbox-shadow: 0 0 16px 1px #000 inset;\n}\n\n.hand li:nth-child(1) {\n\ttransform: translate(0em, 0.9em) rotate(-18deg);\n\tleft: 0;\n}\n\n.hand li:nth-child(2) {\n\ttransform: translate(0.5em, 0.5em) rotate(-15deg);\n\tleft: 2em;\n}\n\n.hand li:nth-child(3) {\n\ttransform: translate(0.5em, 0.3em) rotate(-12deg);\n\tleft: 4em;\n}\n\n.hand li:nth-child(4) {\n\ttransform: translate(0.5em, 0.2em) rotate(-9deg);\n\tleft: 6em;\n}\n\n.hand li:nth-child(5) {\n\ttransform: translate(0.5em, 0.1em) rotate(-6deg);\n\tleft: 8em;\n}\n\n.hand li:nth-child(6) {\n\ttransform: translate(0.5em, 0em) rotate(-3deg);\n\tleft: 10em;\n}\n\n.hand li:nth-child(7) {\n\ttransform: translate(0.5em, -0.1em) rotate(0deg);\n\tleft: 12em;\n}\n\n.hand li:nth-child(1):hover {\n\ttransform: translate(0em, 0.9em) rotate(-18deg) scale(1.1);\n\tleft: 0;\n}\n\n.hand li:nth-child(2):hover {\n\ttransform: translate(0.5em, 0.5em) rotate(-15deg) scale(1.1);\n\tleft: 2em;\n}\n\n.hand li:nth-child(3):hover {\n\ttransform: translate(0.5em, 0.3em) rotate(-12deg) scale(1.1);\n\tleft: 4em;\n}\n\n.hand li:nth-child(4):hover {\n\ttransform: translate(0.5em, 0.2em) rotate(-9deg) scale(1.1);\n\tleft: 6em;\n}\n\n.hand li:nth-child(5):hover {\n\ttransform: translate(0.5em, 0.1em) rotate(-6deg) scale(1.1);\n\tleft: 8em;\n}\n\n.hand li:nth-child(6):hover {\n\ttransform: translate(0.5em, 0em) rotate(-3deg) scale(1.1);\n\tleft: 10em;\n}\n\n.hand li:nth-child(7):hover {\n\ttransform: translate(0.5em, -0.1em) rotate(0deg) scale(1.1);\n\tleft: 12em;\n}\n\n.card_new {\n\tanimation: zoom 2s ease !important;\n}\n\n@keyframes zoom {\n\t0% {\n\t\ttransform: scale(1);\n\t}\n\n\t50% {\n\t\ttransform: scale(1.5);\n\t}\n\n\t100% {\n\t\ttransform: scale(1);\n\t}\n}\n\n.card_open {\n\tbackground-image: url(/static/coin-open.jpg);\n\tbackground-size: 50px;\n\tbackground-repeat: no-repeat;\n\tbackground-position: center;\n\tborder-radius: 10px;\n\tbackground-color: #fff;\n}\n\n.card_1_c {\n\tbackground: url(/static/cards.png) -2px -1px;\n}\n\n.card_2_c {\n\tbackground: url(/static/cards.png) -75px -1px;\n}\n\n.card_3_c {\n\tbackground: url(/static/cards.png) -148px -1px;\n}\n\n.card_4_c {\n\tbackground: url(/static/cards.png) -220px -1px;\n}\n\n.card_5_c {\n\tbackground: url(/static/cards.png) -294px -1px;\n}\n\n.card_6_c {\n\tbackground: url(/static/cards.png) -366px -1px;\n}\n\n.card_7_c {\n\tbackground: url(/static/cards.png) -440px -1px;\n}\n\n.card_8_c {\n\tbackground: url(/static/cards.png) -512px -1px;\n}\n\n.card_9_c {\n\tbackground: url(/static/cards.png) -586px -1px;\n}\n\n.card_10_c {\n\tbackground: url(/static/cards.png) -658px -1px;\n}\n\n.card_11_c {\n\tbackground: url(/static/cards.png) -732px -1px;\n}\n\n.card_12_c {\n\tbackground: url(/static/cards.png) -804px -1px;\n}\n\n.card_13_c {\n\tbackground: url(/static/cards.png) -878px -1px;\n}\n\n.card_1_h {\n\tbackground: url(/static/cards.png) -2px -99px;\n}\n\n.card_2_h {\n\tbackground: url(/static/cards.png) -75px -99px;\n}\n\n.card_3_h {\n\tbackground: url(/static/cards.png) -148px -99px;\n}\n\n.card_4_h {\n\tbackground: url(/static/cards.png) -220px -99px;\n}\n\n.card_5_h {\n\tbackground: url(/static/cards.png) -294px -99px;\n}\n\n.card_6_h {\n\tbackground: url(/static/cards.png) -366px -99px;\n}\n\n.card_7_h {\n\tbackground: url(/static/cards.png) -440px -99px;\n}\n\n.card_8_h {\n\tbackground: url(/static/cards.png) -512px -99px;\n}\n\n.card_9_h {\n\tbackground: url(/static/cards.png) -586px -99px;\n}\n\n.card_10_h {\n\tbackground: url(/static/cards.png) -658px -99px;\n}\n\n.card_11_h {\n\tbackground: url(/static/cards.png) -732px -99px;\n}\n\n.card_12_h {\n\tbackground: url(/static/cards.png) -804px -99px;\n}\n\n.card_13_h {\n\tbackground: url(/static/cards.png) -878px -99px;\n}\n\n.card_1_s {\n\tbackground: url(/static/cards.png) -2px -197px;\n}\n\n.card_2_s {\n\tbackground: url(/static/cards.png) -75px -197px;\n}\n\n.card_3_s {\n\tbackground: url(/static/cards.png) -148px -197px;\n}\n\n.card_4_s {\n\tbackground: url(/static/cards.png) -220px -197px;\n}\n\n.card_5_s {\n\tbackground: url(/static/cards.png) -294px -197px;\n}\n\n.card_6_s {\n\tbackground: url(/static/cards.png) -366px -197px;\n}\n\n.card_7_s {\n\tbackground: url(/static/cards.png) -440px -197px;\n}\n\n.card_8_s {\n\tbackground: url(/static/cards.png) -512px -197px;\n}\n\n.card_9_s {\n\tbackground: url(/static/cards.png) -586px -197px;\n}\n\n.card_10_s {\n\tbackground: url(/static/cards.png) -658px -197px;\n}\n\n.card_11_s {\n\tbackground: url(/static/cards.png) -732px -197px;\n}\n\n.card_12_s {\n\tbackground: url(/static/cards.png) -804px -197px;\n}\n\n.card_13_s {\n\tbackground: url(/static/cards.png) -878px -197px;\n}\n\n.card_1_d {\n\tbackground: url(/static/cards.png) -2px -295px;\n}\n\n.card_2_d {\n\tbackground: url(/static/cards.png) -75px -295px;\n}\n\n.card_3_d {\n\tbackground: url(/static/cards.png) -148px -295px;\n}\n\n.card_4_d {\n\tbackground: url(/static/cards.png) -220px -295px;\n}\n\n.card_5_d {\n\tbackground: url(/static/cards.png) -294px -295px;\n}\n\n.card_6_d {\n\tbackground: url(/static/cards.png) -366px -295px;\n}\n\n.card_7_d {\n\tbackground: url(/static/cards.png) -440px -295px;\n}\n\n.card_8_d {\n\tbackground: url(/static/cards.png) -512px -295px;\n}\n\n.card_9_d {\n\tbackground: url(/static/cards.png) -586px -295px;\n}\n\n.card_10_d {\n\tbackground: url(/static/cards.png) -658px -295px;\n}\n\n.card_11_d {\n\tbackground: url(/static/cards.png) -732px -295px;\n}\n\n.card_12_d {\n\tbackground: url(/static/cards.png) -804px -295px;\n}\n\n.card_13_d {\n\tbackground: url(/static/cards.png) -878px -295px;\n}\n\n.overlay {\n\tposition: fixed;\n\ttop: 0;\n\tbottom: 0;\n\tleft: 0;\n\tright: 0;\n\tbackground: rgba(0, 0, 0, 0.7);\n\ttransition: opacity 500ms;\n}\n\n.overlay:target {\n\tvisibility: visible;\n\topacity: 1;\n}\n\n.popup {\n\tmargin: 0px auto;\n\tpadding: 20px;\n\tbackground: #fff;\n\tborder-radius: 5px;\n\twidth: 30%;\n\tposition: relative;\n\ttransition: all 5s ease-in-out;\n}\n\n/* http://meyerweb.com/eric/tools/css/reset/\n   v2.0 | 20110126\n   License: none (public domain)\n*/\n\nhtml,\nbody,\ndiv,\nspan,\napplet,\nobject,\niframe,\nh1,\nh2,\nh3,\nh4,\nh5,\nh6,\np,\nblockquote,\npre,\na,\nabbr,\nacronym,\naddress,\nbig,\ncite,\ncode,\ndel,\ndfn,\nem,\nimg,\nins,\nkbd,\nq,\ns,\nsamp,\nsmall,\nstrike,\nstrong,\nsub,\nsup,\ntt,\nvar,\nb,\nu,\ni,\ncenter,\ndl,\ndt,\ndd,\nol,\nul,\nli,\nfieldset,\nform,\nlabel,\nlegend,\ntable,\ncaption,\ntbody,\ntfoot,\nthead,\ntr,\nth,\ntd,\narticle,\naside,\ncanvas,\ndetails,\nembed,\nfigure,\nfigcaption,\nfooter,\nheader,\nhgroup,\nmenu,\nnav,\noutput,\nruby,\nsection,\nsummary,\ntime,\nmark,\naudio,\nvideo {\n\tmargin: 0;\n\tpadding: 0;\n\tborder: 0;\n\tfont-size: 100%;\n\tfont: inherit;\n\tvertical-align: baseline;\n}\n\n/* HTML5 display-role reset for older browsers */\narticle,\naside,\ndetails,\nfigcaption,\nfigure,\nfooter,\nheader,\nhgroup,\nmenu,\nnav,\nsection {\n\tdisplay: block;\n}\n\nbody {\n\tline-height: 1;\n}\n\nol,\nul {\n\tlist-style: none;\n}\n\nblockquote,\nq {\n\tquotes: none;\n}\n\nblockquote:before,\nblockquote:after,\nq:before,\nq:after {\n\tcontent: '';\n\tcontent: none;\n}\n\ntable {\n\tborder-collapse: collapse;\n\tborder-spacing: 0;\n}\n\n.history-container {\n\tmargin: 50px;\n}\n\n.funny-message {\n\tcolor: #ccc;\n}\n\n.normal-message {}\n\n.subtitle {\n\tfont-size: 12px;\n\tcolor: #555;\n\tfont-style: italic;\n}\n\n.update-message {\n\tdisplay: flex;\n\talign-items: center;\n\tflex-direction: row;\n}\n\n.chat-input {\n\tborder-radius: 18px;\n\tborder: 1px solid #eee;\n\tbox-shadow: 0 0 5px 1px #eee inset;\n\tpadding: 10px;\n\twidth: 30vw;\n}\n\n.chat-input:focus {\n\toutline: 0;\n}\n\n.speech-bubble {\n\tuser-select: none;\n\tbackground: #eee;\n\tcursor: pointer;\n\tborder-radius: 4px;\n\twidth: 40px;\n\tpadding: 5px;\n\tposition: relative;\n\ttransform: scale(0.8);\n\tdisplay: inline-block;\n}\n\n.speech-bubble p:last-of-type {\n\tmargin-bottom: 0;\n}\n\n.speech-bubble::after {\n\tborder-left: 20px solid transparent;\n\tborder-top: 20px solid #eee;\n\tbottom: -15px;\n\tcontent: '';\n\tposition: absolute;\n\tright: 15px;\n}\n\n.fun-toggle {\n\tvisibility: hidden;\n}\n\n.fun-messages {\n\tdisplay: none;\n\tfloat: right;\n\tpadding: 16px;\n\tposition: relative;\n\ttext-align: center;\n\tbox-shadow: 0 0 3px 1px #ccc;\n\twidth: 200px;\n\tbackground: #eee;\n}\n\n.fun-message {\n\tcursor: pointer;\n\tmargin-top: 5px;\n}\n\n.fun-toggle:checked~ul {\n\tdisplay: block;\n}\n\n.messages {\n\tpadding: 10px;\n\tmax-height: 300px;\n\tmax-width: 350px;\n\toverflow: auto;\n}\n\n.messages .message {\n\tmargin-top: 2px;\n}\n\n::-webkit-scrollbar {\n\t-webkit-appearance: none;\n\twidth: 7px;\n}\n\n::-webkit-scrollbar-thumb {\n\tborder-radius: 4px;\n\tbackground-color: rgba(0, 0, 0, 0.5);\n\t-webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);\n}\n"],"sourceRoot":"webpack://"}]);
 
 	// exports
 	exports.locals = {
@@ -3959,10 +3972,13 @@ webpackJsonp([1],[
 		"players": "players___1Zr2t",
 		"current": "current___1dT7h",
 		"hand": "hand___3WEBO",
+		"small": "small___2OOEM",
 		"card": "card___1dy8c",
 		"throwerIn": "throwerIn___3D2T3",
 		"hover": "hover___10LXM",
 		"chover": "chover___1-HWf",
+		"card_new": "card_new___bNunR",
+		"zoom": "zoom___1ABHb",
 		"card_open": "card_open___2c6wm",
 		"card_1_c": "card_1_c___MiWzI",
 		"card_2_c": "card_2_c___1_Q8g",
@@ -4021,6 +4037,7 @@ webpackJsonp([1],[
 		"history-container": "history-container___3G5Dc",
 		"funny-message": "funny-message_____eR3",
 		"normal-message": "normal-message___JWJyo",
+		"subtitle": "subtitle___8PQJI",
 		"update-message": "update-message___3dMuu",
 		"chat-input": "chat-input___1dfqy",
 		"speech-bubble": "speech-bubble___3CmhW",
@@ -4628,6 +4645,10 @@ webpackJsonp([1],[
 
 	var _constants = __webpack_require__(419);
 
+	var _styles = __webpack_require__(408);
+
+	var _styles2 = _interopRequireDefault(_styles);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Timer = function (_Component) {
@@ -4683,8 +4704,7 @@ webpackJsonp([1],[
 				pendingSeconds -= pendingMins * 60;
 				return _react2.default.createElement(
 					'span',
-					{
-						className: 'timer ' + this.props.className + ' ' + (pendingMins === 0 ? 'pulse' : '') },
+					{ className: _styles2.default['timer'] },
 					pendingMins,
 					':',
 					pendingSeconds > 9 ? pendingSeconds : '0' + pendingSeconds
@@ -4763,7 +4783,7 @@ webpackJsonp([1],[
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var bakaithiTexts = ['everything is gonna be ok', 'test', 'awesome'];
+	var songs = ['https://open.spotify.com/embed/track/5fXslGZPI5Cco6PKHzlSL3', 'https://open.spotify.com/embed/track/6rfahvufEQDIVTHJIU2QQB'];
 
 	function say(m) {
 		var msg = new SpeechSynthesisUtterance();
@@ -4797,9 +4817,6 @@ webpackJsonp([1],[
 		}
 
 		(0, _createClass3.default)(History, [{
-			key: 'componentDidMount',
-			value: function componentDidMount() {}
-		}, {
 			key: 'onTextChange',
 			value: function onTextChange(e) {
 				this.setState({ message: e.target.value });
@@ -4813,7 +4830,13 @@ webpackJsonp([1],[
 				var message = this.state.message;
 				this.setState({ message: null });
 				setTimeout(function () {
-					return _this2.sendMessage('normal', message);
+					if (message.startsWith('>')) {
+						_this2.sendMessage('funny', message.slice(1));
+					} else if (message.startsWith('~')) {
+						_this2.sendMessage('music', message.slice(1));
+					} else {
+						_this2.sendMessage('normal', message);
+					}
 				}, 100);
 			}
 		}, {
@@ -4824,6 +4847,8 @@ webpackJsonp([1],[
 		}, {
 			key: 'onMessage',
 			value: function onMessage(_ref) {
+				var _this3 = this;
+
 				var id = _ref.id,
 				    type = _ref.type,
 				    message = _ref.message;
@@ -4831,12 +4856,30 @@ webpackJsonp([1],[
 				if (type === 'funny') {
 					// todo debounce.
 					say(message);
+				} else if (type === 'music') {
+					setTimeout(function () {
+						return _this3.playMusic(message);
+					}, 100);
 				}
 				this.setState(function (state) {
 					return (0, _extends3.default)({}, state, {
 						messages: [{ message: message, id: id, type: type }].concat(state.messages)
 					});
 				});
+			}
+		}, {
+			key: 'playMusic',
+			value: function playMusic(index) {
+				this.refs.player && (this.refs.player.src = songs[index] || songs[0]);
+			}
+		}, {
+			key: 'cleanUpMusic',
+			value: function cleanUpMusic() {
+				var _this4 = this;
+
+				setTimeout(function () {
+					_this4.refs.player && (_this4.refs.player.src = 'about:blank');
+				}, 30000);
 			}
 		}, {
 			key: 'parseMessage',
@@ -4852,6 +4895,19 @@ webpackJsonp([1],[
 						id,
 						' : ',
 						message
+					);
+				} else if (type === 'music') {
+					return _react2.default.createElement(
+						'div',
+						{ className: _styles2.default['update-message'] },
+						_react2.default.createElement('img', {
+							src: 'https://moma-teams-photos.corp.google.com/photos/' + id + '?sz=64',
+							title: id,
+							alt: id.slice(0, 4),
+							className: (0, _classnames2.default)(_styles2.default['avatar'])
+						}),
+						' ',
+						'wants to play song. Tap the play button!'
 					);
 				} else if (type === 'normal') {
 					return _react2.default.createElement(
@@ -4879,7 +4935,7 @@ webpackJsonp([1],[
 		}, {
 			key: 'render',
 			value: function render() {
-				var _this3 = this;
+				var _this5 = this;
 
 				return _react2.default.createElement(
 					'div',
@@ -4891,36 +4947,9 @@ webpackJsonp([1],[
 							className: _styles2.default['chat-input'],
 							type: 'text',
 							value: this.state.message || '',
-							placeholder: 'type and enter.',
+							placeholder: 'send messages.',
 							onChange: this.onTextChange
-						}),
-						_react2.default.createElement(
-							'label',
-							{ htmlFor: 'toggle' },
-							_react2.default.createElement(
-								'div',
-								{ onClick: function onClick() {}, className: _styles2.default['speech-bubble'] },
-								_react2.default.createElement(
-									'span',
-									null,
-									'...'
-								)
-							)
-						),
-						_react2.default.createElement('input', { type: 'checkbox', id: 'toggle', className: _styles2.default['fun-toggle'] }),
-						_react2.default.createElement(
-							'ul',
-							{ className: _styles2.default['fun-messages'] },
-							bakaithiTexts.map(function (message) {
-								return _react2.default.createElement(
-									'li',
-									{
-										onClick: _this3.sendMessage.bind(_this3, 'funny', message),
-										className: _styles2.default['fun-message'] },
-									message
-								);
-							})
-						)
+						})
 					),
 					_react2.default.createElement(
 						'ul',
@@ -4929,8 +4958,22 @@ webpackJsonp([1],[
 							return _react2.default.createElement(
 								'li',
 								{ className: _styles2.default['message'] },
-								typeof message === 'string' ? message : _this3.parseMessage(message)
+								typeof message === 'string' ? message : _this5.parseMessage(message)
 							);
+						})
+					),
+					_react2.default.createElement(
+						'div',
+						{ className: 'player' },
+						_react2.default.createElement('iframe', {
+							src: 'about:blank',
+							width: '300',
+							height: '100',
+							ref: 'player',
+							frameborder: '0',
+							onLoad: this.cleanUpMusic.bind(this),
+							allowtransparency: 'true',
+							allow: 'encrypted-media'
 						})
 					)
 				);
@@ -15360,7 +15403,7 @@ webpackJsonp([1],[
 		var logger = function logger(store) {
 			return function (next) {
 				return function (action) {
-					console.log(action);
+					typeof action !== 'function' && console.log(action);
 					return next(action);
 				};
 			};
@@ -15439,6 +15482,14 @@ webpackJsonp([1],[
 		get_game: function get_game(state, _ref) {
 			var type = _ref.type,
 			    data = _ref.data;
+
+			return (0, _extends3.default)({}, state, data, {
+				loading: false
+			});
+		},
+		set_game: function set_game(state, _ref2) {
+			var type = _ref2.type,
+			    data = _ref2.data;
 
 			return (0, _extends3.default)({}, state, data, {
 				loading: false

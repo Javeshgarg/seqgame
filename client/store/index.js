@@ -8,7 +8,7 @@ export default function configure(initialState) {
 		: createStore;
 
 	const logger = store => next => action => {
-		console.log(action);
+		typeof action !== 'function' && console.log(action);
 		return next(action);
 	};
 

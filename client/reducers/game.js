@@ -13,6 +13,13 @@ export default handleActions(
 				loading: false,
 			};
 		},
+		set_game(state, { type, data }) {
+			return {
+				...state,
+				...data,
+				loading: false,
+			};
+		},
 	},
 	initialState,
 );
