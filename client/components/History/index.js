@@ -2,7 +2,10 @@ import styles from '../styles.css';
 import React, { Component } from 'react';
 import classnames from 'classnames';
 
-const bakaithiTexts = ['everything is gonna be ok', 'test', 'awesome'];
+const songs = [
+	'https://open.spotify.com/embed/track/5fXslGZPI5Cco6PKHzlSL3',
+	'https://open.spotify.com/embed/track/6rfahvufEQDIVTHJIU2QQB',
+];
 
 function say(m) {
 	const msg = new SpeechSynthesisUtterance();
@@ -29,8 +32,6 @@ export default class History extends Component {
 		this.onFormSubmit = this.onFormSubmit.bind(this);
 	}
 
-	componentDidMount() {}
-
 	onTextChange(e) {
 		this.setState({ message: e.target.value });
 	}
@@ -39,7 +40,15 @@ export default class History extends Component {
 		e.preventDefault();
 		const message = this.state.message;
 		this.setState({ message: null });
-		setTimeout(() => this.sendMessage('normal', message), 100);
+		setTimeout(() => {
+			if (message.startsWith('>')) {
+				this.sendMessage('funny', message.slice(1));
+			} else if (message.startsWith('~')) {
+				this.sendMessage('music', message.slice(1));
+			} else {
+				this.sendMessage('normal', message);
+			}
+		}, 100);
 	}
 
 	sendMessage(type, message) {
@@ -50,6 +59,8 @@ export default class History extends Component {
 		if (type === 'funny') {
 			// todo debounce.
 			say(message);
+		} else if (type === 'music') {
+			setTimeout(() => this.playMusic(message), 100);
 		}
 		this.setState(state => {
 			return {
@@ -59,11 +70,33 @@ export default class History extends Component {
 		});
 	}
 
+	playMusic(index) {
+		this.refs.player && (this.refs.player.src = songs[index] || songs[0]);
+	}
+
+	cleanUpMusic() {
+		setTimeout(() => {
+			this.refs.player && (this.refs.player.src = 'about:blank');
+		}, 30000);
+	}
+
 	parseMessage({ message, id, type }) {
 		if (type === 'funny') {
 			return (
 				<div className={styles['funny-message']}>
 					{id} : {message}
+				</div>
+			);
+		} else if (type === 'music') {
+			return (
+				<div className={styles['update-message']}>
+					<img
+						src={`https://moma-teams-photos.corp.google.com/photos/${id}?sz=64`}
+						title={id}
+						alt={id.slice(0, 4)}
+						className={classnames(styles['avatar'])}
+					/>{' '}
+					wants to play song. Tap the play button!
 				</div>
 			);
 		} else if (type === 'normal') {
@@ -99,26 +132,9 @@ export default class History extends Component {
 						className={styles['chat-input']}
 						type={'text'}
 						value={this.state.message || ''}
-						placeholder={'type and enter.'}
+						placeholder={'send messages.'}
 						onChange={this.onTextChange}
 					/>
-					<label htmlFor={'toggle'}>
-						<div onClick={() => {}} className={styles['speech-bubble']}>
-							<span>...</span>
-						</div>
-					</label>
-					<input type='checkbox' id='toggle' className={styles['fun-toggle']} />
-					<ul className={styles['fun-messages']}>
-						{bakaithiTexts.map(message => {
-							return (
-								<li
-									onClick={this.sendMessage.bind(this, 'funny', message)}
-									className={styles['fun-message']}>
-									{message}
-								</li>
-							);
-						})}
-					</ul>
 				</form>
 				<ul className={styles['messages']}>
 					{this.state.messages.map(message => {
@@ -131,6 +147,19 @@ export default class History extends Component {
 						);
 					})}
 				</ul>
+				<div className={'player'}>
+					<iframe
+						src={'about:blank'}
+						width='300'
+						height='100'
+						ref={'player'}
+						className={styles['music_player']}
+						frameborder='0'
+						onLoad={this.cleanUpMusic.bind(this)}
+						allowtransparency='true'
+						allow='encrypted-media'
+					/>
+				</div>
 			</div>
 		);
 	}
