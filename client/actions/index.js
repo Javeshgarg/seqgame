@@ -18,6 +18,6 @@ export const setGameState = (uid, gameId, state) => {
 				'Content-Type': 'application/json',
 			},
 			body: JSON.stringify(state),
-		}).then(json => dispatch({ type: 'get_game', data: json }));
+		}).then(json => dispatch({ type: 'set_game', data: json }));
 	};
 };

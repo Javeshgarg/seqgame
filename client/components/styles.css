@@ -65,8 +65,8 @@
 }
 
 .timer {
-	transition: font-size 0.5s ease;
-	font-size: 55px;
+	font-size: 40px;
+	color: #fff;
 }
 
 .toast {
@@ -179,6 +179,10 @@
 	opacity: 1;
 }
 
+.small {
+	font-size: 20px;
+}
+
 .hand li:hover~li {
 	opacity: 0.2;
 }
@@ -282,6 +286,30 @@
 .hand li:nth-child(7):hover {
 	transform: translate(0.5em, -0.1em) rotate(0deg) scale(1.1);
 	left: 12em;
+}
+
+.card_new {
+	animation: zoom 2s ease !important;
+}
+
+@keyframes zoom {
+	0% {
+		transform: scale(1);
+	}
+
+	50% {
+		transform: scale(1.5);
+	}
+
+	100% {
+		transform: scale(1);
+	}
+}
+
+.music_player {
+	position: absolute;
+	bottom: 0;
+	right: 0;
 }
 
 .card_open {
@@ -672,6 +700,12 @@ table {
 
 .normal-message {}
 
+.subtitle {
+	font-size: 12px;
+	color: #555;
+	font-style: italic;
+}
+
 .update-message {
 	display: flex;
 	align-items: center;
@@ -683,7 +717,7 @@ table {
 	border: 1px solid #eee;
 	box-shadow: 0 0 5px 1px #eee inset;
 	padding: 10px;
-	width: 200px;
+	width: 30vw;
 }
 
 .chat-input:focus {
