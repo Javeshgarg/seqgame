@@ -208,6 +208,13 @@
 	}
 }
 
+.highlightall {
+	margin-bottom: 5px;
+	color: #fff;
+	text-shadow: 1px 1px #000;
+	text-decoration: none;
+}
+
 .board .card {
 	height: 10.3vh;
 }
@@ -215,7 +222,8 @@
 .board .card.hover,
 .board .card.chover:hover {
 	cursor: pointer;
-	box-shadow: 0 0 16px 1px #000 inset;
+	box-shadow: 0 0 1px 5px #000;
+	transform: scale(1.1);
 }
 
 .hand li:nth-child(1) {
@@ -710,6 +718,14 @@ table {
 	display: flex;
 	align-items: center;
 	flex-direction: row;
+}
+
+.update-message .card {
+	transform: scale(0.7);
+}
+
+.lhover {
+	box-shadow: 0 0 1px 5px rgb(156, 81, 199);
 }
 
 .chat-input {

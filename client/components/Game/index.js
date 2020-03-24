@@ -30,10 +30,11 @@ export default class Game extends Component {
 		socket.on('connect', () => {
 			console.log('socket_connection_ok');
 		});
-		socket.on('client_update_game', ({ id, card }) => {
+		socket.on('client_update_game', ({ id, card, coord }) => {
 			if (this.props.id !== id) {
 				console.log('refresh_board');
 				this.componentDidMount();
+				this.highlightLast_(coord);
 			}
 			this.refs.historyBox.onMessage({
 				message: card,
@@ -51,10 +52,28 @@ export default class Game extends Component {
 		return socket;
 	}
 
-	broadCastMove(card) {
+	highlightLast_([x, y]) {
+		try {
+			const cl = styles['lhover'];
+			const el = document
+				.querySelectorAll(`.${styles['board']} tr`)
+				[x].querySelectorAll('td')[y];
+			el.classList.add(cl);
+			setTimeout(() => el.classList.remove(cl), 2000);
+		} catch (e) {
+			console.log(e);
+		}
+	}
+
+	broadCastMove(card, coord) {
 		console.log('socket_server_play');
 		setTimeout(
-			() => this.socket_.emit('server_play', { id: this.props.id, card }),
+			() =>
+				this.socket_.emit('server_play', {
+					id: this.props.id,
+					card,
+					coord,
+				}),
 			200,
 		);
 	}
@@ -63,7 +82,11 @@ export default class Game extends Component {
 		console.log('socket_server_chat');
 		setTimeout(
 			() =>
-				this.socket_.emit('server_chat', { id: this.props.id, type, message }),
+				this.socket_.emit('server_chat', {
+					id: this.props.id,
+					type,
+					message,
+				}),
 			200,
 		);
 	}
@@ -80,8 +103,11 @@ export default class Game extends Component {
 	canPlayCard(card, isFilled, slot) {
 		const isAlreadyPartOfSequence = isPartOfSequence(this.props.board, slot);
 		return this.props.hands.filter(handCard => {
-			if (isFilled && !isAlreadyPartOfSequence) {
-				return ['11_s', '11_h'].includes(handCard);
+			if (isFilled) {
+				if (!isAlreadyPartOfSequence) {
+					return ['11_s', '11_h'].includes(handCard);
+				}
+				return false;
 			} else {
 				return [card, '11_d', '11_c'].includes(handCard);
 			}
@@ -97,6 +123,9 @@ export default class Game extends Component {
 	}
 
 	commitPlay(cellId) {
+		if ([0, 9, 90, 99].includes(cellId)) {
+			return;
+		}
 		const x = Math.floor(cellId / 10);
 		const y = cellId % 10;
 		const playableCards = this.getPlayableCards(cellId);
@@ -149,7 +178,7 @@ export default class Game extends Component {
 				500,
 			);
 
-			this.broadCastMove(card);
+			this.broadCastMove(card, [x, y]);
 		}
 
 		const nextState = {
@@ -256,6 +285,13 @@ export default class Game extends Component {
 							this.isMyTurn() && [styles['alert'], styles[myColor]],
 							styles['control'],
 						)}>
+						<a
+							href={'javascript:void(0)'}
+							className={styles['highlightall']}
+							onMouseOver={this.highlightAll_.bind(this, true)}
+							onMouseOut={this.highlightAll_.bind(this, false)}>
+							[highlight_all]
+						</a>
 						<ul className={styles['hand']}>
 							{hands.map((c, i) => {
 								return (
@@ -338,6 +374,18 @@ export default class Game extends Component {
 				? els.forEach(el => el.classList.add(cls))
 				: els.forEach(el => el.classList.remove(cls));
 		}
+	}
+
+	highlightAll_(mousein) {
+		this.props.hands.forEach(hand => {
+			const sel = document.querySelectorAll(
+				`.${styles['board']} .${styles[`card_${hand}`]}`,
+			);
+			sel.forEach(e => {
+				if (mousein) e.classList.add(`${styles['hover']}`);
+				else e.classList.remove(`${styles['hover']}`);
+			});
+		});
 	}
 
 	getColor_(id) {
