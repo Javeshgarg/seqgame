@@ -28,11 +28,11 @@ webpackJsonp([1],[
 
 	var _Game2 = _interopRequireDefault(_Game);
 
-	var _Home = __webpack_require__(475);
+	var _Home = __webpack_require__(478);
 
 	var _Home2 = _interopRequireDefault(_Home);
 
-	var _store = __webpack_require__(478);
+	var _store = __webpack_require__(481);
 
 	var _store2 = _interopRequireDefault(_store);
 
@@ -3274,11 +3274,11 @@ webpackJsonp([1],[
 
 	var _sequence = __webpack_require__(421);
 
-	var _cardmap = __webpack_require__(422);
+	var _cardmap = __webpack_require__(425);
 
 	var _cardmap2 = _interopRequireDefault(_cardmap);
 
-	var _socket = __webpack_require__(423);
+	var _socket = __webpack_require__(426);
 
 	var _socket2 = _interopRequireDefault(_socket);
 
@@ -4949,6 +4949,39 @@ webpackJsonp([1],[
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
 
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.botNextMove = exports.endStateDetection = exports.isPartOfSequence = undefined;
+
+	var _partofsequence = __webpack_require__(422);
+
+	var _partofsequence2 = _interopRequireDefault(_partofsequence);
+
+	var _endstatedetection = __webpack_require__(423);
+
+	var _endstatedetection2 = _interopRequireDefault(_endstatedetection);
+
+	var _botmove = __webpack_require__(424);
+
+	var _botmove2 = _interopRequireDefault(_botmove);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.isPartOfSequence = _partofsequence2.default;
+	exports.endStateDetection = _endstatedetection2.default;
+	exports.botNextMove = _botmove2.default;
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "sequence.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ }),
+/* 422 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
 	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
@@ -4959,10 +4992,14 @@ webpackJsonp([1],[
 
 	var _slicedToArray3 = _interopRequireDefault(_slicedToArray2);
 
-	exports.isPartOfSequence = isPartOfSequence;
+	exports.default = isPartOfSequence;
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	/**
+	 * Returns if given [x, y] in board[][] is part of a sequence.
+	 * board[][] has two possible values null or {id: xxx} representing a coin.
+	 */
 	function isPartOfSequence(board, _ref) {
 		var _ref2 = (0, _slicedToArray3.default)(_ref, 2),
 		    x = _ref2[0],
@@ -5069,10 +5106,51 @@ webpackJsonp([1],[
 		return false;
 	}
 
-	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "sequence.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "partofsequence.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 422 */
+/* 423 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = isFinished;
+	/**
+	 * Returns if game ends and which team wins.
+	 * board[][] has two possible values null or {id: playerId} representing a coin.
+	 */
+	function isFinished(board) {}
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "endstatedetection.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ }),
+/* 424 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = makeMove;
+	/**
+	 * Returns a move by bot. (a card in hand)
+	 * board[][] has two possible values null or {id: playerId} representing a coin.
+	 * hand[] is array of cards in current hand.
+	 */
+	function makeMove(board, hand) {}
+
+	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "botmove.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+
+/***/ }),
+/* 425 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -5084,7 +5162,7 @@ webpackJsonp([1],[
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "cardmap.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 423 */
+/* 426 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	
@@ -5092,10 +5170,10 @@ webpackJsonp([1],[
 	 * Module dependencies.
 	 */
 
-	var url = __webpack_require__(424);
-	var parser = __webpack_require__(429);
-	var Manager = __webpack_require__(441);
-	var debug = __webpack_require__(426)('socket.io-client');
+	var url = __webpack_require__(427);
+	var parser = __webpack_require__(432);
+	var Manager = __webpack_require__(444);
+	var debug = __webpack_require__(429)('socket.io-client');
 
 	/**
 	 * Module exports.
@@ -5179,12 +5257,12 @@ webpackJsonp([1],[
 	 * @api public
 	 */
 
-	exports.Manager = __webpack_require__(441);
-	exports.Socket = __webpack_require__(470);
+	exports.Manager = __webpack_require__(444);
+	exports.Socket = __webpack_require__(473);
 
 
 /***/ }),
-/* 424 */
+/* 427 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	
@@ -5192,8 +5270,8 @@ webpackJsonp([1],[
 	 * Module dependencies.
 	 */
 
-	var parseuri = __webpack_require__(425);
-	var debug = __webpack_require__(426)('socket.io-client:url');
+	var parseuri = __webpack_require__(428);
+	var debug = __webpack_require__(429)('socket.io-client:url');
 
 	/**
 	 * Module exports.
@@ -5265,7 +5343,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 425 */
+/* 428 */
 /***/ (function(module, exports) {
 
 	/**
@@ -5310,7 +5388,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 426 */
+/* 429 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/* eslint-env browser */
@@ -5562,7 +5640,7 @@ webpackJsonp([1],[
 		}
 	}
 
-	module.exports = __webpack_require__(427)(exports);
+	module.exports = __webpack_require__(430)(exports);
 
 	const {formatters} = module.exports;
 
@@ -5581,7 +5659,7 @@ webpackJsonp([1],[
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(230)))
 
 /***/ }),
-/* 427 */
+/* 430 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	
@@ -5597,7 +5675,7 @@ webpackJsonp([1],[
 		createDebug.disable = disable;
 		createDebug.enable = enable;
 		createDebug.enabled = enabled;
-		createDebug.humanize = __webpack_require__(428);
+		createDebug.humanize = __webpack_require__(431);
 
 		Object.keys(env).forEach(key => {
 			createDebug[key] = env[key];
@@ -5853,7 +5931,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 428 */
+/* 431 */
 /***/ (function(module, exports) {
 
 	/**
@@ -6021,7 +6099,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 429 */
+/* 432 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	
@@ -6029,11 +6107,11 @@ webpackJsonp([1],[
 	 * Module dependencies.
 	 */
 
-	var debug = __webpack_require__(430)('socket.io-parser');
-	var Emitter = __webpack_require__(433);
-	var binary = __webpack_require__(434);
-	var isArray = __webpack_require__(435);
-	var isBuf = __webpack_require__(436);
+	var debug = __webpack_require__(433)('socket.io-parser');
+	var Emitter = __webpack_require__(436);
+	var binary = __webpack_require__(437);
+	var isArray = __webpack_require__(438);
+	var isBuf = __webpack_require__(439);
 
 	/**
 	 * Protocol version.
@@ -6442,7 +6520,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 430 */
+/* 433 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -6451,7 +6529,7 @@ webpackJsonp([1],[
 	 * Expose `debug()` as the module.
 	 */
 
-	exports = module.exports = __webpack_require__(431);
+	exports = module.exports = __webpack_require__(434);
 	exports.log = log;
 	exports.formatArgs = formatArgs;
 	exports.save = save;
@@ -6644,7 +6722,7 @@ webpackJsonp([1],[
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(230)))
 
 /***/ }),
-/* 431 */
+/* 434 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	
@@ -6660,7 +6738,7 @@ webpackJsonp([1],[
 	exports.disable = disable;
 	exports.enable = enable;
 	exports.enabled = enabled;
-	exports.humanize = __webpack_require__(432);
+	exports.humanize = __webpack_require__(435);
 
 	/**
 	 * Active `debug` instances.
@@ -6875,7 +6953,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 432 */
+/* 435 */
 /***/ (function(module, exports) {
 
 	/**
@@ -7033,7 +7111,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 433 */
+/* 436 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	
@@ -7202,7 +7280,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 434 */
+/* 437 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*global Blob,File*/
@@ -7211,8 +7289,8 @@ webpackJsonp([1],[
 	 * Module requirements
 	 */
 
-	var isArray = __webpack_require__(435);
-	var isBuf = __webpack_require__(436);
+	var isArray = __webpack_require__(438);
+	var isBuf = __webpack_require__(439);
 	var toString = Object.prototype.toString;
 	var withNativeBlob = typeof Blob === 'function' || (typeof Blob !== 'undefined' && toString.call(Blob) === '[object BlobConstructor]');
 	var withNativeFile = typeof File === 'function' || (typeof File !== 'undefined' && toString.call(File) === '[object FileConstructor]');
@@ -7349,7 +7427,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 435 */
+/* 438 */
 /***/ (function(module, exports) {
 
 	var toString = {}.toString;
@@ -7360,7 +7438,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 436 */
+/* 439 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {
@@ -7384,10 +7462,10 @@ webpackJsonp([1],[
 	          (withNativeArrayBuffer && (obj instanceof ArrayBuffer || isView(obj)));
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(437).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(440).Buffer))
 
 /***/ }),
-/* 437 */
+/* 440 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -7400,9 +7478,9 @@ webpackJsonp([1],[
 
 	'use strict'
 
-	var base64 = __webpack_require__(438)
-	var ieee754 = __webpack_require__(439)
-	var isArray = __webpack_require__(440)
+	var base64 = __webpack_require__(441)
+	var ieee754 = __webpack_require__(442)
+	var isArray = __webpack_require__(443)
 
 	exports.Buffer = Buffer
 	exports.SlowBuffer = SlowBuffer
@@ -9183,7 +9261,7 @@ webpackJsonp([1],[
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 438 */
+/* 441 */
 /***/ (function(module, exports) {
 
 	'use strict'
@@ -9341,7 +9419,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 439 */
+/* 442 */
 /***/ (function(module, exports) {
 
 	exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -9431,7 +9509,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 440 */
+/* 443 */
 /***/ (function(module, exports) {
 
 	var toString = {}.toString;
@@ -9442,7 +9520,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 441 */
+/* 444 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	
@@ -9450,15 +9528,15 @@ webpackJsonp([1],[
 	 * Module dependencies.
 	 */
 
-	var eio = __webpack_require__(442);
-	var Socket = __webpack_require__(470);
-	var Emitter = __webpack_require__(433);
-	var parser = __webpack_require__(429);
-	var on = __webpack_require__(472);
-	var bind = __webpack_require__(473);
-	var debug = __webpack_require__(426)('socket.io-client:manager');
-	var indexOf = __webpack_require__(469);
-	var Backoff = __webpack_require__(474);
+	var eio = __webpack_require__(445);
+	var Socket = __webpack_require__(473);
+	var Emitter = __webpack_require__(436);
+	var parser = __webpack_require__(432);
+	var on = __webpack_require__(475);
+	var bind = __webpack_require__(476);
+	var debug = __webpack_require__(429)('socket.io-client:manager');
+	var indexOf = __webpack_require__(472);
+	var Backoff = __webpack_require__(477);
 
 	/**
 	 * IE6+ hasOwnProperty
@@ -10021,11 +10099,11 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 442 */
+/* 445 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	
-	module.exports = __webpack_require__(443);
+	module.exports = __webpack_require__(446);
 
 	/**
 	 * Exports parser
@@ -10033,24 +10111,24 @@ webpackJsonp([1],[
 	 * @api public
 	 *
 	 */
-	module.exports.parser = __webpack_require__(450);
+	module.exports.parser = __webpack_require__(453);
 
 
 /***/ }),
-/* 443 */
+/* 446 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Module dependencies.
 	 */
 
-	var transports = __webpack_require__(444);
-	var Emitter = __webpack_require__(459);
-	var debug = __webpack_require__(463)('engine.io-client:socket');
-	var index = __webpack_require__(469);
-	var parser = __webpack_require__(450);
-	var parseuri = __webpack_require__(425);
-	var parseqs = __webpack_require__(460);
+	var transports = __webpack_require__(447);
+	var Emitter = __webpack_require__(462);
+	var debug = __webpack_require__(466)('engine.io-client:socket');
+	var index = __webpack_require__(472);
+	var parser = __webpack_require__(453);
+	var parseuri = __webpack_require__(428);
+	var parseqs = __webpack_require__(463);
 
 	/**
 	 * Module exports.
@@ -10186,9 +10264,9 @@ webpackJsonp([1],[
 	 */
 
 	Socket.Socket = Socket;
-	Socket.Transport = __webpack_require__(449);
-	Socket.transports = __webpack_require__(444);
-	Socket.parser = __webpack_require__(450);
+	Socket.Transport = __webpack_require__(452);
+	Socket.transports = __webpack_require__(447);
+	Socket.parser = __webpack_require__(453);
 
 	/**
 	 * Creates transport of the given type.
@@ -10791,17 +10869,17 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 444 */
+/* 447 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Module dependencies
 	 */
 
-	var XMLHttpRequest = __webpack_require__(445);
-	var XHR = __webpack_require__(447);
-	var JSONP = __webpack_require__(466);
-	var websocket = __webpack_require__(467);
+	var XMLHttpRequest = __webpack_require__(448);
+	var XHR = __webpack_require__(450);
+	var JSONP = __webpack_require__(469);
+	var websocket = __webpack_require__(470);
 
 	/**
 	 * Export transports.
@@ -10850,12 +10928,12 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 445 */
+/* 448 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// browser shim for xmlhttprequest module
 
-	var hasCORS = __webpack_require__(446);
+	var hasCORS = __webpack_require__(449);
 
 	module.exports = function (opts) {
 	  var xdomain = opts.xdomain;
@@ -10893,7 +10971,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 446 */
+/* 449 */
 /***/ (function(module, exports) {
 
 	
@@ -10916,7 +10994,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 447 */
+/* 450 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* global attachEvent */
@@ -10925,11 +11003,11 @@ webpackJsonp([1],[
 	 * Module requirements.
 	 */
 
-	var XMLHttpRequest = __webpack_require__(445);
-	var Polling = __webpack_require__(448);
-	var Emitter = __webpack_require__(459);
-	var inherit = __webpack_require__(461);
-	var debug = __webpack_require__(463)('engine.io-client:polling-xhr');
+	var XMLHttpRequest = __webpack_require__(448);
+	var Polling = __webpack_require__(451);
+	var Emitter = __webpack_require__(462);
+	var inherit = __webpack_require__(464);
+	var debug = __webpack_require__(466)('engine.io-client:polling-xhr');
 
 	/**
 	 * Module exports.
@@ -11339,19 +11417,19 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 448 */
+/* 451 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Module dependencies.
 	 */
 
-	var Transport = __webpack_require__(449);
-	var parseqs = __webpack_require__(460);
-	var parser = __webpack_require__(450);
-	var inherit = __webpack_require__(461);
-	var yeast = __webpack_require__(462);
-	var debug = __webpack_require__(463)('engine.io-client:polling');
+	var Transport = __webpack_require__(452);
+	var parseqs = __webpack_require__(463);
+	var parser = __webpack_require__(453);
+	var inherit = __webpack_require__(464);
+	var yeast = __webpack_require__(465);
+	var debug = __webpack_require__(466)('engine.io-client:polling');
 
 	/**
 	 * Module exports.
@@ -11364,7 +11442,7 @@ webpackJsonp([1],[
 	 */
 
 	var hasXHR2 = (function () {
-	  var XMLHttpRequest = __webpack_require__(445);
+	  var XMLHttpRequest = __webpack_require__(448);
 	  var xhr = new XMLHttpRequest({ xdomain: false });
 	  return null != xhr.responseType;
 	})();
@@ -11590,15 +11668,15 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 449 */
+/* 452 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Module dependencies.
 	 */
 
-	var parser = __webpack_require__(450);
-	var Emitter = __webpack_require__(459);
+	var parser = __webpack_require__(453);
+	var Emitter = __webpack_require__(462);
 
 	/**
 	 * Module exports.
@@ -11757,22 +11835,22 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 450 */
+/* 453 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
 	 * Module dependencies.
 	 */
 
-	var keys = __webpack_require__(451);
-	var hasBinary = __webpack_require__(452);
-	var sliceBuffer = __webpack_require__(454);
-	var after = __webpack_require__(455);
-	var utf8 = __webpack_require__(456);
+	var keys = __webpack_require__(454);
+	var hasBinary = __webpack_require__(455);
+	var sliceBuffer = __webpack_require__(457);
+	var after = __webpack_require__(458);
+	var utf8 = __webpack_require__(459);
 
 	var base64encoder;
 	if (typeof ArrayBuffer !== 'undefined') {
-	  base64encoder = __webpack_require__(457);
+	  base64encoder = __webpack_require__(460);
 	}
 
 	/**
@@ -11830,7 +11908,7 @@ webpackJsonp([1],[
 	 * Create a blob api even for blob builder when vendor prefixes exist
 	 */
 
-	var Blob = __webpack_require__(458);
+	var Blob = __webpack_require__(461);
 
 	/**
 	 * Encodes a packet.
@@ -12368,7 +12446,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 451 */
+/* 454 */
 /***/ (function(module, exports) {
 
 	
@@ -12393,7 +12471,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 452 */
+/* 455 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {/* global Blob File */
@@ -12402,7 +12480,7 @@ webpackJsonp([1],[
 	 * Module requirements.
 	 */
 
-	var isArray = __webpack_require__(453);
+	var isArray = __webpack_require__(456);
 
 	var toString = Object.prototype.toString;
 	var withNativeBlob = typeof Blob === 'function' ||
@@ -12461,10 +12539,10 @@ webpackJsonp([1],[
 	  return false;
 	}
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(437).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(440).Buffer))
 
 /***/ }),
-/* 453 */
+/* 456 */
 /***/ (function(module, exports) {
 
 	var toString = {}.toString;
@@ -12475,7 +12553,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 454 */
+/* 457 */
 /***/ (function(module, exports) {
 
 	/**
@@ -12510,7 +12588,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 455 */
+/* 458 */
 /***/ (function(module, exports) {
 
 	module.exports = after
@@ -12544,7 +12622,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 456 */
+/* 459 */
 /***/ (function(module, exports) {
 
 	/*! https://mths.be/utf8js v2.1.2 by @mathias */
@@ -12760,7 +12838,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 457 */
+/* 460 */
 /***/ (function(module, exports) {
 
 	/*
@@ -12833,7 +12911,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 458 */
+/* 461 */
 /***/ (function(module, exports) {
 
 	/**
@@ -12939,7 +13017,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 459 */
+/* 462 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	
@@ -13108,7 +13186,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 460 */
+/* 463 */
 /***/ (function(module, exports) {
 
 	/**
@@ -13151,7 +13229,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 461 */
+/* 464 */
 /***/ (function(module, exports) {
 
 	
@@ -13163,7 +13241,7 @@ webpackJsonp([1],[
 	};
 
 /***/ }),
-/* 462 */
+/* 465 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -13237,7 +13315,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 463 */
+/* 466 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/* eslint-env browser */
@@ -13489,7 +13567,7 @@ webpackJsonp([1],[
 		}
 	}
 
-	module.exports = __webpack_require__(464)(exports);
+	module.exports = __webpack_require__(467)(exports);
 
 	const {formatters} = module.exports;
 
@@ -13508,7 +13586,7 @@ webpackJsonp([1],[
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(230)))
 
 /***/ }),
-/* 464 */
+/* 467 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	
@@ -13524,7 +13602,7 @@ webpackJsonp([1],[
 		createDebug.disable = disable;
 		createDebug.enable = enable;
 		createDebug.enabled = enabled;
-		createDebug.humanize = __webpack_require__(465);
+		createDebug.humanize = __webpack_require__(468);
 
 		Object.keys(env).forEach(key => {
 			createDebug[key] = env[key];
@@ -13780,7 +13858,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 465 */
+/* 468 */
 /***/ (function(module, exports) {
 
 	/**
@@ -13948,15 +14026,15 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 466 */
+/* 469 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/**
 	 * Module requirements.
 	 */
 
-	var Polling = __webpack_require__(448);
-	var inherit = __webpack_require__(461);
+	var Polling = __webpack_require__(451);
+	var inherit = __webpack_require__(464);
 
 	/**
 	 * Module exports.
@@ -14194,19 +14272,19 @@ webpackJsonp([1],[
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 467 */
+/* 470 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {/**
 	 * Module dependencies.
 	 */
 
-	var Transport = __webpack_require__(449);
-	var parser = __webpack_require__(450);
-	var parseqs = __webpack_require__(460);
-	var inherit = __webpack_require__(461);
-	var yeast = __webpack_require__(462);
-	var debug = __webpack_require__(463)('engine.io-client:websocket');
+	var Transport = __webpack_require__(452);
+	var parser = __webpack_require__(453);
+	var parseqs = __webpack_require__(463);
+	var inherit = __webpack_require__(464);
+	var yeast = __webpack_require__(465);
+	var debug = __webpack_require__(466)('engine.io-client:websocket');
 
 	var BrowserWebSocket, NodeWebSocket;
 
@@ -14218,7 +14296,7 @@ webpackJsonp([1],[
 
 	if (typeof window === 'undefined') {
 	  try {
-	    NodeWebSocket = __webpack_require__(468);
+	    NodeWebSocket = __webpack_require__(471);
 	  } catch (e) { }
 	}
 
@@ -14493,16 +14571,16 @@ webpackJsonp([1],[
 	  return !!WebSocketImpl && !('__initialize' in WebSocketImpl && this.name === WS.prototype.name);
 	};
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(437).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(440).Buffer))
 
 /***/ }),
-/* 468 */
+/* 471 */
 /***/ (function(module, exports) {
 
 	/* (ignored) */
 
 /***/ }),
-/* 469 */
+/* 472 */
 /***/ (function(module, exports) {
 
 	
@@ -14517,7 +14595,7 @@ webpackJsonp([1],[
 	};
 
 /***/ }),
-/* 470 */
+/* 473 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	
@@ -14525,14 +14603,14 @@ webpackJsonp([1],[
 	 * Module dependencies.
 	 */
 
-	var parser = __webpack_require__(429);
-	var Emitter = __webpack_require__(433);
-	var toArray = __webpack_require__(471);
-	var on = __webpack_require__(472);
-	var bind = __webpack_require__(473);
-	var debug = __webpack_require__(426)('socket.io-client:socket');
-	var parseqs = __webpack_require__(460);
-	var hasBin = __webpack_require__(452);
+	var parser = __webpack_require__(432);
+	var Emitter = __webpack_require__(436);
+	var toArray = __webpack_require__(474);
+	var on = __webpack_require__(475);
+	var bind = __webpack_require__(476);
+	var debug = __webpack_require__(429)('socket.io-client:socket');
+	var parseqs = __webpack_require__(463);
+	var hasBin = __webpack_require__(455);
 
 	/**
 	 * Module exports.
@@ -14961,7 +15039,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 471 */
+/* 474 */
 /***/ (function(module, exports) {
 
 	module.exports = toArray
@@ -14980,7 +15058,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 472 */
+/* 475 */
 /***/ (function(module, exports) {
 
 	
@@ -15010,7 +15088,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 473 */
+/* 476 */
 /***/ (function(module, exports) {
 
 	/**
@@ -15039,7 +15117,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 474 */
+/* 477 */
 /***/ (function(module, exports) {
 
 	
@@ -15130,7 +15208,7 @@ webpackJsonp([1],[
 
 
 /***/ }),
-/* 475 */
+/* 478 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -15169,7 +15247,7 @@ webpackJsonp([1],[
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _style = __webpack_require__(476);
+	var _style = __webpack_require__(479);
 
 	var _style2 = _interopRequireDefault(_style);
 
@@ -15210,13 +15288,13 @@ webpackJsonp([1],[
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 476 */
+/* 479 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(477);
+	var content = __webpack_require__(480);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(411)(content, {});
@@ -15236,7 +15314,7 @@ webpackJsonp([1],[
 	}
 
 /***/ }),
-/* 477 */
+/* 480 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(410)();
@@ -15252,7 +15330,7 @@ webpackJsonp([1],[
 	};
 
 /***/ }),
-/* 478 */
+/* 481 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -15266,11 +15344,11 @@ webpackJsonp([1],[
 
 	var _redux = __webpack_require__(127);
 
-	var _reducers = __webpack_require__(479);
+	var _reducers = __webpack_require__(482);
 
 	var _reducers2 = _interopRequireDefault(_reducers);
 
-	var _reduxThunk = __webpack_require__(481);
+	var _reduxThunk = __webpack_require__(484);
 
 	var _reduxThunk2 = _interopRequireDefault(_reduxThunk);
 
@@ -15305,7 +15383,7 @@ webpackJsonp([1],[
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 479 */
+/* 482 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -15320,7 +15398,7 @@ webpackJsonp([1],[
 
 	var _redux = __webpack_require__(127);
 
-	var _game = __webpack_require__(480);
+	var _game = __webpack_require__(483);
 
 	var _game2 = _interopRequireDefault(_game);
 
@@ -15334,7 +15412,7 @@ webpackJsonp([1],[
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "index.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 480 */
+/* 483 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* REACT HOT LOADER */ if (false) { (function () { var ReactHotAPI = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-api/modules/index.js"), RootInstanceProvider = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-loader/RootInstanceProvider.js"), ReactMount = require("react-dom/lib/ReactMount"), React = require("react"); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
@@ -15371,7 +15449,7 @@ webpackJsonp([1],[
 	/* REACT HOT LOADER */ }).call(this); } finally { if (false) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = require("/Users/prashanthanand/apps/seqgame/node_modules/react-hot-loader/makeExportsHot.js"); if (makeExportsHot(module, require("react"))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "game.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 
 /***/ }),
-/* 481 */
+/* 484 */
 /***/ (function(module, exports) {
 
 	'use strict';
