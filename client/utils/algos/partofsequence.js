@@ -72,10 +72,11 @@ function northEastDiagonals(board, [x, y]) {
 
 function hasConsecutives(arr, isCorner, length = 5) {
 	let i = 0,
+		last = null,
 		counter = 0;
 	while (i < arr.length) {
 		if (arr[i] !== null) {
-			counter++;
+			counter = arr[i].id === last ? counter + 1 : 1;
 		} else if (isCorner && (i === 0 || i === arr.length - 1)) {
 			counter++;
 		} else {
